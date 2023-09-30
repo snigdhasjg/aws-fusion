@@ -2,7 +2,7 @@ import os
 import argparse
 
 
-def get_arguments():
+def parse_arguments():
     return __arg_parser().parse_args()
 
 

@@ -10,20 +10,19 @@ Usage:
  - :tada: Your browser opens, and you are signed in into the AWS console
 """
 
-import webbrowser
+from input_output.cli import parse_arguments
+from input_output.browser import open_console
 
-from aws.helper import signin_url
-from argument.inputs import get_arguments
+from aws_console_login.credentials import aws_credentials
+from aws_console_login.aws_operations import signin_url
 
-def open_console(profile_name, echo_to_stdout):
-    with_logout_request_url = signin_url(profile_name)
+def main():
+    args = parse_arguments()
 
-    if echo_to_stdout:
-        print(with_logout_request_url)
-    else:
-        webbrowser.open(with_logout_request_url)
-
+    creds, region_name = aws_credentials(args.profile)
+    url = signin_url(creds, region_name)
+    
+    open_console(url, args.stdout)
 
 if __name__ == '__main__':
-    args = get_arguments()
-    open_console(args.profile, args.stdout)
+    main()
