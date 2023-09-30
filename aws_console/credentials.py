@@ -4,6 +4,7 @@ import boto3
 
 
 class TokenGenerationException(Exception):
+    "Exception for credential not having token"
     pass
 
 

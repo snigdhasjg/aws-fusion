@@ -1,5 +1,13 @@
-.vscode
-**/__pycache__
-build
+.DS_Store
+*.pyc
+__pycache__
 dist
+build
 *.egg-info
+
+# IDE
+.vscode
+.idea
+
+# Virtualenv support files and directories
+.python-version
