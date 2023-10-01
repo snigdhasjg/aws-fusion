@@ -13,9 +13,9 @@ def signin_url(creds, region_name):
         f'&redirect_uri={parse.quote_plus(login_request_url)}'
 
 
-def __aws_signin_token(access_key, secret_key, token) -> str:
+def __aws_signin_token(access_key, secret_key, session_token) -> str:
     url_credentials = dict(sessionId=access_key,
-                           sessionKey=secret_key, sessionToken=token)
+                           sessionKey=secret_key, sessionToken=session_token)
     credentials_encoded = parse.quote_plus(json.dumps(url_credentials))
     request_url = 'https://signin.aws.amazon.com/federation?Action=getSigninToken' \
                   f'&Session={credentials_encoded}'  # f'&SessionDuration={SESSION_DURATION_IN_SECONDS}'
@@ -26,11 +26,11 @@ def __aws_signin_token(access_key, secret_key, token) -> str:
         return json.loads(response.read())["SigninToken"]
 
 
-def __aws_login_url(access_key, secret_key, token, region_name) -> str:
+def __aws_login_url(access_key, secret_key, session_token, region_name) -> str:
     destination_url_encoded = parse.quote_plus(
         "https://{}.console.aws.amazon.com/".format(region_name))
     signin_token_encoded = parse.quote_plus(
-        __aws_signin_token(access_key, secret_key, token))
+        __aws_signin_token(access_key, secret_key, session_token))
     return 'https://us-east-1.signin.aws.amazon.com/federation?Action=login' \
            f'&Issuer={ISSUER}' \
            f'&Destination={destination_url_encoded}' \
