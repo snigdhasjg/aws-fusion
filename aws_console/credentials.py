@@ -1,4 +1,4 @@
-from .cache import JSONFileCache
+from aws_console.cache import JSONFileCache
 
 import boto3
 
@@ -8,8 +8,8 @@ class TokenGenerationException(Exception):
     pass
 
 
-def aws_credentials(profile_name):
-    session = boto3.Session(profile_name=profile_name)
+def aws_credentials(profile_name, region_name):
+    session = boto3.Session(profile_name=profile_name, region_name=region_name)
 
     # Setting up a custom cache implementation like aws cli
     cred_chain = session._session.get_component('credential_provider')

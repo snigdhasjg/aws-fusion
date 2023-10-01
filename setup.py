@@ -23,6 +23,9 @@ setup(
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
-        'Operating System :: OS Independent',
+        'Intended Audience :: System Administrators',
+        'Operating System :: MacOS',
+        'Operating System :: POSIX :: Linux',
+        'Development Status :: 4 - Beta'
     ],
 )
