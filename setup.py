@@ -34,7 +34,6 @@ setup(
         'boto3'
     ],
     author='Snigdhajyoti Ghosh',
-    author_email='snigdhasjg@users.noreply.github.com',
     url='https://github.com/snigdhasjg/aws-console',
     license="MIT License",
     classifiers=[

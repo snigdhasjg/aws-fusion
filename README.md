@@ -1,6 +1,8 @@
 # aws console
 AWS Console Login Utility
 
+[![Tagging](https://github.com/snigdhasjg/aws-console/actions/workflows/tagging.yml/badge.svg)](https://github.com/snigdhasjg/aws-console/actions/workflows/tagging.yml)
+
 # Installation
 ## Via Pip
 Install via pip install.
