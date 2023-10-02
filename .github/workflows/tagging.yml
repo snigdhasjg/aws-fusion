@@ -1,0 +1,36 @@
+name: Tagging
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: tagging
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    name: Auto Tagging
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Get package information
+        id: package_info
+        run: |
+          echo "version=$(./setup.py --version)" >> "$GITHUB_OUTPUT"
+    
+      - name: Add git tag
+        run: |
+          git tag ${{ steps.package_info.outputs.version }} -f
+          git push origin ${{ steps.package_info.outputs.version }} -f
