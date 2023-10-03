@@ -31,7 +31,7 @@ setup(
         ]
     },
     install_requires=[
-        'boto3',
+        'boto3>=1.28',
         'pyperclip>=1.8,<1.9'
     ],
     author='Snigdhajyoti Ghosh',
