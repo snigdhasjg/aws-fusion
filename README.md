@@ -1,7 +1,8 @@
 # aws console
 AWS Console Login Utility
 
-[![Tagging](https://github.com/snigdhasjg/aws-console/actions/workflows/tagging.yml/badge.svg)](https://github.com/snigdhasjg/aws-console/actions/workflows/tagging.yml)
+[![Tag][tag-badge]][tag]
+[![Tagging][actions-workflow-tagging-badge]][actions-workflow-tagging]
 
 # Installation
 ## Via Pip
@@ -86,3 +87,12 @@ sso_registration_scopes = sso:account:access
 The docs
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
+
+
+<!-- badge links -->
+
+[tag]: https://github.com/snigdhasjg/aws-console/tags
+[tag-badge]: https://img.shields.io/github/v/tag/snigdhasjg/aws-console?style=for-the-badge&logo=github
+
+[actions-workflow-tagging]: https://github.com/snigdhasjg/aws-console/actions/workflows/tagging.yml
+[actions-workflow-tagging-badge]: https://img.shields.io/github/actions/workflow/status/snigdhasjg/aws-console/tagging.yml?branch=main&label=Tagging&style=for-the-badge&logo=githubactions
