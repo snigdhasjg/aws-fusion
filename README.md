@@ -6,7 +6,7 @@ AWS Console Login Utility
 # Installation
 ## Via Pip
 Install via pip install.
-_note this also required git to be present_
+_note this also requires git to be present_
 
 ```shell
 pip install git+https://github.com/snigdhasjg/aws-console.git@main

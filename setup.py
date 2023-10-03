@@ -31,7 +31,8 @@ setup(
         ]
     },
     install_requires=[
-        'boto3'
+        'boto3',
+        'pyperclip>=1.8,<1.9'
     ],
     author='Snigdhajyoti Ghosh',
     url='https://github.com/snigdhasjg/aws-console',
