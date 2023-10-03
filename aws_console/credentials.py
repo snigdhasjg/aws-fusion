@@ -68,6 +68,7 @@ def aws_credentials(argument):
 
     # Setting up a custom cache implementation like aws cli
     cred_chain = session._session.get_component('credential_provider')
+    # TODO: Introduce cache for sso & any other supported provider
     provider = cred_chain.get_provider('assume-role')
     provider.cache = JSONFileCache()
 
