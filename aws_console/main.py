@@ -1,8 +1,8 @@
-from aws_console.input_output.cli import parse_arguments
-from aws_console.input_output.browser import open_console
+from .input_output.cli import parse_arguments
+from .input_output.browser import open_console
 
-from aws_console.credentials import aws_credentials
-from aws_console.aws_console_login import signin_url
+from .credentials import aws_credentials
+from .aws_console_login import signin_url
 
 def main():
     args = parse_arguments()
