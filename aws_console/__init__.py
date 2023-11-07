@@ -10,6 +10,10 @@ __version__ = '0.3'
 def aws_console():
     args = parse_arguments()
 
+    if args.version:
+        print(__version__)
+        return
+
     creds, region_name = aws_credentials(args)
     url = signin_url(creds, region_name)
 

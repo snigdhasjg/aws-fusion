@@ -10,6 +10,8 @@ def __arg_parser():
     parser = argparse.ArgumentParser(
         description="Open the AWS console in your web browser, using your AWS CLI credentials")
 
+    parser.add_argument('-v', '--version', action='store_true',
+                        help="Display the version of this tool")
     parser.add_argument('-P', '--profile', default=os.getenv("AWS_PROFILE"),
                         help="The AWS profile to create the pre-signed URL with")
     parser.add_argument('-R', '--region', default=os.getenv("AWS_REGION", os.getenv("AWS_DEFAULT_REGION")),
