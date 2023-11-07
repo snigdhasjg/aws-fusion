@@ -21,13 +21,21 @@ def find_version(*file_paths):
 
 setup(
     name='aws_console',
-    version=find_version("aws_console", "__init__.py"),
+    version=find_version('aws_console', '__init__.py'),
     description='AWS Console Login Utility',
+    keywords = [
+        'aws',
+        'aws-sdk',
+        'aws-cli',
+        'aws-authentication',
+        'aws-sdk-python',
+        'aws-auth'
+    ],
     long_description=read("README.md"),
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'aws-console = aws_console.main:main'
+            'aws-console = aws_console:aws_console'
         ]
     },
     install_requires=[
@@ -35,6 +43,7 @@ setup(
         'pyperclip>=1.8,<1.9'
     ],
     author='Snigdhajyoti Ghosh',
+    author_email='snigdhajyotighos.h@gmail.com',
     url='https://github.com/snigdhasjg/aws-console',
     license="MIT License",
     classifiers=[
@@ -42,8 +51,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
-        'Operating System :: MacOS',
-        'Operating System :: POSIX :: Linux',
-        'Development Status :: 4 - Beta'
+        'Operating System :: OS Independent',
+        'Development Status :: 5 - Production/Stable',
+        'Topic :: Utilities'
     ],
 )
