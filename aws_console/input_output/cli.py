@@ -1,13 +1,15 @@
 import os
 import argparse
 
+from importlib.metadata import version
+
 
 def open_console_arguments():
     parser = argparse.ArgumentParser(
         description="Open the AWS console in your web browser, using your AWS CLI credentials")
 
-    parser.add_argument('-v', '--version', action='store_true',
-                        help="Display the version of this tool")
+    parser.add_argument(
+        '-v', '--version', action='version', help="Display the version of this tool", version=version("aws-console"))
     parser.add_argument('-P', '--profile', default=os.getenv("AWS_PROFILE"),
                         help="The AWS profile to create the pre-signed URL with")
     parser.add_argument('-R', '--region', default=os.getenv("AWS_REGION", os.getenv("AWS_DEFAULT_REGION")),
@@ -23,17 +25,18 @@ def open_console_arguments():
 
 
 def credential_process_arguments():
+    global_parser = argparse.ArgumentParser(add_help=False)
+    global_parser.add_argument(
+        '-v', '--version', action='version', help="Display the version of this tool", version=version("aws-console"))
+    
     parser = argparse.ArgumentParser(
-        description='AWS Credential Management CLI')
-
-    parser.add_argument('-v', '--version', action='store_true',
-                        help="Display the version of this tool")
+        description='AWS Credential Management CLI', parents=[global_parser])
 
     subparsers = parser.add_subparsers(
-        dest='command', help='Available commands')
+        dest='command', required=True, help='Available commands')
 
     # Subparser for 'store' command
-    store_parser = subparsers.add_parser('store', help='Store AWS credentials')
+    store_parser = subparsers.add_parser('store', help='Store AWS credentials', parents=[global_parser])
     store_parser.add_argument(
         '--account-id', required=False, help='AWS Account ID for the name')
     store_parser.add_argument(
@@ -44,7 +47,7 @@ def credential_process_arguments():
         '--secret-key', required=True, help='AWS secret key')
 
     # Subparser for 'get' command
-    get_parser = subparsers.add_parser('get', help='Get AWS credentials')
+    get_parser = subparsers.add_parser('get', help='Get AWS credentials', parents=[global_parser])
     get_parser.add_argument(
         '--account-id', required=False, help='AWS Account ID for the name')
     get_parser.add_argument(
