@@ -4,8 +4,12 @@ AWS Console Login Utility
 [![Tag][tag-badge]][tag]
 [![Tagging][actions-workflow-tagging-badge]][actions-workflow-tagging]
 
-# Installation
-## Via Pip
+## Command line tool
+- `aws-console`
+- `aws-system-credential`
+
+## Installation
+### Via Pip
 Install via pip install.
 _note this also requires git to be present_
 
@@ -13,7 +17,7 @@ _note this also requires git to be present_
 pip install git+https://github.com/snigdhasjg/aws-console.git@main
 ```
 
-## Manually
+### Manually
 1. Simply clone this repository
 ```shell
 git clone https://github.com/snigdhasjg/aws-console.git
@@ -24,17 +28,15 @@ python setup.py install
 ```
 
 ---
-Post this step `aws-console` script will be added to python binary directy at `<path-to-python-installation>/bin/aws-console`
-
-# Usage
+## Usage of `aws-console`
  - Make AWS credentials available via aws profile
  - Execute the script: `aws-console --profile my-profile`
  - :tada: Your browser opens, and you are signed in into the AWS console
 
-## Use cases
+### Use cases
 This only works with assume-role and federated-login, doesn't work with IAM user or user session.
 
-### IAM assume role
+#### IAM assume role
 Profiles that use IAM roles pull credentials from another profile, and then apply IAM role permissions. 
 
 In the following examples, `iam-user` is the source profile for credentials and `iam-assume-role` borrows the same credentials then assumes a new role.
@@ -60,7 +62,7 @@ region = ap-south-1
 output = json
 ```
 
-### Federated login
+#### Federated login
 Using IAM Identity Center, you can login to Active Directory, a built-in IAM Identity Center directory, or another IdP connected to IAM Identity Center. You can map these credentials to an AWS Identity and Access Management (IAM) role for you to run AWS CLI commands.
 
 In the following examples, using `aws-sso` profile assumes `sso-read-only-role` on `111122223333` account.
@@ -83,11 +85,47 @@ sso_registration_scopes = sso:account:access
 
 > Try `aws-console --help` for detailed parameter
 
-## Refer
+### Refer
 The docs
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
+---
+## Usage of `aws-system-credential`
+The tool provides two main commands: `store` and `get`.
+- Store AWS credentials in system default credential store
+- Retrieve AWS credentials from system default credential store. Optionally plug the CLI to aws external credential process.
+
+### Use cases
+To store IAM user credential in the system credential store for best security rather than plain text `~/.aws/credentials` file.
+
+Manully the save the credential in the store using
+```bash
+aws-system-credential store \
+    --access-key 'AKIAIOSFODNN7EXAMPLE' \
+    --secret-key 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' \
+    --account-id '123456789012' \
+    --username 'my-iam-user'
+```
+
+Configure aws config file to use credential process
+**Config file**
+```
+[profile iam-user]
+region = us-east-1
+output = json
+credential_process = aws-system-credential get --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE' --credential-process
+```
+
+> Try `aws-system-credential --help` for detailed parameter
+
+### Refer
+The docs
+- https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+
+---
+## License
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 <!-- badge links -->
 
