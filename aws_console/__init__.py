@@ -33,4 +33,4 @@ def aws_system_credential():
 def __show_version_if_requested(args):
     if args.version:
         print(__version__)
-        return
+        exit(0)
