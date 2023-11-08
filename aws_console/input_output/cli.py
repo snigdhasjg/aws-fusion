@@ -2,11 +2,7 @@ import os
 import argparse
 
 
-def parse_arguments():
-    return __arg_parser().parse_args()
-
-
-def __arg_parser():
+def open_console_arguments():
     parser = argparse.ArgumentParser(
         description="Open the AWS console in your web browser, using your AWS CLI credentials")
 
@@ -23,4 +19,39 @@ def __arg_parser():
     group1.add_argument('--stdout', action='store_true',
                         help="don't open the web browser, but echo the signin URL to stdout")
 
-    return parser
+    return parser.parse_args()
+
+
+def credential_process_arguments():
+    parser = argparse.ArgumentParser(
+        description='AWS Credential Management CLI')
+
+    parser.add_argument('-v', '--version', action='store_true',
+                        help="Display the version of this tool")
+
+    subparsers = parser.add_subparsers(
+        dest='command', help='Available commands')
+
+    # Subparser for 'store' command
+    store_parser = subparsers.add_parser('store', help='Store AWS credentials')
+    store_parser.add_argument(
+        '--account-id', required=False, help='AWS Account ID for the name')
+    store_parser.add_argument(
+        '--username', required=False, help='Username of a AWS user associated with the access key for the name')
+    store_parser.add_argument(
+        '--access-key', required=True, help='AWS access key')
+    store_parser.add_argument(
+        '--secret-key', required=True, help='AWS secret key')
+
+    # Subparser for 'get' command
+    get_parser = subparsers.add_parser('get', help='Get AWS credentials')
+    get_parser.add_argument(
+        '--account-id', required=False, help='AWS Account ID for the name')
+    get_parser.add_argument(
+        '--username', required=False, help='Username of a AWS user associated with the access key for the name')
+    get_parser.add_argument(
+        '--access-key', required=True, help='AWS access key')
+    get_parser.add_argument(
+        '--credential-process', action='store_true', help='Use credential process')
+
+    return parser.parse_args()

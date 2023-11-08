@@ -35,12 +35,14 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'aws-console = aws_console:aws_console'
+            'aws-console = aws_console:aws_console',
+            'aws-system-credential = aws_console:aws_system_credential'
         ]
     },
     install_requires=[
         'boto3>=1.28',
-        'pyperclip>=1.8,<1.9'
+        'pyperclip>=1.8,<1.9',
+        'keyring>=24.2,<24.3'
     ],
     author='Snigdhajyoti Ghosh',
     author_email='snigdhajyotighos.h@gmail.com',

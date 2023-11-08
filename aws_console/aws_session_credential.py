@@ -11,11 +11,8 @@ class TokenGenerationException(Exception):
     pass
 
 
-def aws_credentials(argument):
-    session = boto3.Session(
-        profile_name=argument.profile,
-        region_name=argument.region
-    )
+def aws_session_credential(profile_name, region_name):
+    session = boto3.Session(profile_name=profile_name, region_name=region_name)
 
     __update_credential_provider_cache(session)
 
