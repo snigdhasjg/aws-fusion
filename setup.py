@@ -36,7 +36,7 @@ setup(
     entry_points={
         'console_scripts': [
             'aws-console = aws_console:aws_console',
-            'aws-system-credential = aws_console:aws_system_credential'
+            'aws-credential-process-from-system = aws_console:aws_credential_process_from_system'
         ]
     },
     install_requires=[

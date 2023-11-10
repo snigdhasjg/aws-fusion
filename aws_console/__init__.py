@@ -17,10 +17,10 @@ def aws_console():
     open_console(url, args.clip, args.stdout)
 
 
-def aws_system_credential():
+def aws_credential_process_from_system():
     args = credential_process_arguments()
 
     if args.command == 'store':
         store_aws_credential(args.account_id, args.username, args.access_key, args.secret_key)
     elif args.command == 'get':
-        get_aws_credential(args.account_id, args.username, args.access_key, args.credential_process)
+        get_aws_credential(args.account_id, args.username, args.access_key)

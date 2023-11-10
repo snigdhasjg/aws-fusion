@@ -52,7 +52,5 @@ def credential_process_arguments():
     # Subparser for 'get' command
     get_parser = subparsers.add_parser('get',
                                        help='Get AWS credentials', parents=[global_parser, get_store_common_parser])
-    get_parser.add_argument('--credential-process',
-                            action='store_true', help='Use credential process')
 
     return parser.parse_args()

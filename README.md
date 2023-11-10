@@ -6,7 +6,7 @@ AWS Console Login Utility
 
 ## Command line tool
 - `aws-console`
-- `aws-system-credential`
+- `aws-credential-process-from-system`
 
 ## Installation
 ### Via Pip
@@ -91,7 +91,7 @@ The docs
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
 ---
-## Usage of `aws-system-credential`
+## Usage of `aws-credential-process-from-system`
 The tool provides two main commands: `store` and `get`.
 - Store AWS credentials in system default credential store
 - Retrieve AWS credentials from system default credential store. Optionally plug the CLI to aws external credential process.
@@ -101,7 +101,7 @@ To store IAM user credential in the system credential store for best security ra
 
 Manully the save the credential in the store using
 ```bash
-aws-system-credential store \
+aws-credential-process-from-system store \
     --access-key 'AKIAIOSFODNN7EXAMPLE' \
     --secret-key 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' \
     --account-id '123456789012' \
@@ -114,10 +114,10 @@ Configure aws config file to use credential process
 [profile iam-user]
 region = us-east-1
 output = json
-credential_process = aws-system-credential get --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE' --credential-process
+credential_process = aws-credential-process-from-system get --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE'
 ```
 
-> Try `aws-system-credential --help` for detailed parameter
+> Try `aws-credential-process-from-system --help` for detailed parameter
 
 ### Refer
 The docs
