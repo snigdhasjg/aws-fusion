@@ -8,6 +8,10 @@ AWS Console Login Utility
 - `aws-console`
 - `aws-credential-process-from-system`
 
+Additonally this creates [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) for all the tools
+- `aws console`
+- `aws credential-process-from-system`
+
 ## Installation
 ### Via Pip
 Install via pip install.
