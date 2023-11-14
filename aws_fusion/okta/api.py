@@ -36,10 +36,11 @@ def verifiction_and_token(org_domain, oidc_client_id, device_code):
     while True:
         request = requests.post(url, headers=headers, data=payload)
         response = request.json()
-        time.sleep(5)
 
         # Check for authorization pending
         if request.status_code == 400 and response['error'] == 'authorization_pending':
+            LOG.debug('Waiting for verification')
+            time.sleep(5)
             continue
 
         # Check for successful verification
@@ -47,7 +48,7 @@ def verifiction_and_token(org_domain, oidc_client_id, device_code):
             break
 
         # Unexpected state. Die.
-        print(response, file=sys.stderr)
+        LOG.error(response)
         sys.exit(1)
 
     LOG.debug('Validated device code and got access_token & id_token')

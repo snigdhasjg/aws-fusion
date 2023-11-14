@@ -1,6 +1,7 @@
 import argparse
 import json
 import keyring
+import sys
 
 def setup(subparsers, parent_parser):
     common_parser = argparse.ArgumentParser(add_help=False)
@@ -35,6 +36,9 @@ def run_get(args):
             "SecretAccessKey": secret_key
         }))
     else:
-        print(secret_key)
+        command = '$env:' if sys.platform == 'win32' else 'export '
+
+        print(f'{command}AWS_ACCESS_KEY_ID="{args.access_key}"')
+        print(f'{command}AWS_SECRET_ACCESS_KEY="{secret_key}"')
     
     

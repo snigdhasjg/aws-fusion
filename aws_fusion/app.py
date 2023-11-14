@@ -1,4 +1,3 @@
-import os
 import argparse
 
 from importlib.metadata import version

@@ -31,4 +31,6 @@ def run(args):
 
     if args.credential_process:
         print(assume_role_with_cache.credential_process())
+    else:
+        print(assume_role_with_cache.environement_variable())
     
