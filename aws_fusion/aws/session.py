@@ -1,17 +1,13 @@
 from botocore.utils import JSONFileCache
 import boto3
 
-import datetime
-import os
-import json
-
 
 class TokenGenerationException(Exception):
     "Exception for credential not having token"
     pass
 
 
-def aws_session_credential(profile_name, region_name):
+def credentials(profile_name, region_name):
     session = boto3.Session(profile_name=profile_name, region_name=region_name)
 
     __update_credential_provider_cache(session)

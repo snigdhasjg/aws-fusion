@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - "aws_console/**"
+      - "aws_fusion/**"
       - "setup.py"
 
 concurrency: tagging

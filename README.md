@@ -1,11 +1,11 @@
-# aws console
-AWS Console Login Utility
+# aws fusion
+Unified CLI tool for streamlined AWS operations, enhancing developer productivity
 
 [![Tag][tag-badge]][tag]
 [![Tagging][actions-workflow-tagging-badge]][actions-workflow-tagging]
 
 ## Command line tool
-- `aws-console`
+- `aws-fusion`
 - `aws-credential-process-from-system`
 
 Additonally this creates [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) for all the tools
@@ -13,28 +13,26 @@ Additonally this creates [aws cli alias](https://docs.aws.amazon.com/cli/latest/
 - `aws credential-process-from-system`
 
 ## Installation
-### Via Pip
+### Via Pip directly
 Install via pip install.
 _note this also requires git to be present_
 
 ```shell
-pip install git+https://github.com/snigdhasjg/aws-console.git@main
+pip install git+https://github.com/snigdhasjg/aws-fusion.git@main
 ```
 
 ### Manually
-1. Simply clone this repository
+Simply clone this repository and run pip install
 ```shell
-git clone https://github.com/snigdhasjg/aws-console.git
-```
-2. Install using [setup.py](./setup.py)
-```shell
-python setup.py install
+git clone https://github.com/snigdhasjg/aws-fusion.git
+cd aws-fusion
+pip install .
 ```
 
 ---
-## Usage of `aws-console`
+## Usage of `aws-fusion`
  - Make AWS credentials available via aws profile
- - Execute the script: `aws-console --profile my-profile`
+ - Execute the script: `aws-fusion --profile my-profile`
  - :tada: Your browser opens, and you are signed in into the AWS console
 
 ### Use cases
@@ -87,7 +85,7 @@ sso_start_url = https://my-sso-portal.awsapps.com/start
 sso_registration_scopes = sso:account:access
 ```
 
-> Try `aws-console --help` for detailed parameter
+> Try `aws-fusion --help` for detailed parameter
 
 ### Refer
 The docs
@@ -133,8 +131,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 <!-- badge links -->
 
-[tag]: https://github.com/snigdhasjg/aws-console/tags
-[tag-badge]: https://img.shields.io/github/v/tag/snigdhasjg/aws-console?style=for-the-badge&logo=github
+[tag]: https://github.com/snigdhasjg/aws-fusion/tags
+[tag-badge]: https://img.shields.io/github/v/tag/snigdhasjg/aws-fusion?style=for-the-badge&logo=github
 
-[actions-workflow-tagging]: https://github.com/snigdhasjg/aws-console/actions/workflows/tagging.yml
-[actions-workflow-tagging-badge]: https://img.shields.io/github/actions/workflow/status/snigdhasjg/aws-console/tagging.yml?branch=main&label=Tagging&style=for-the-badge&logo=githubactions
+[actions-workflow-tagging]: https://github.com/snigdhasjg/aws-fusion/actions/workflows/tagging.yml
+[actions-workflow-tagging-badge]: https://img.shields.io/github/actions/workflow/status/snigdhasjg/aws-fusion/tagging.yml?branch=main&label=Tagging&style=for-the-badge&logo=githubactions

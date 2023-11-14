@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 from setuptools.command.develop import develop
 from setuptools.command.install_scripts import install_scripts
 import configparser
+import sys
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -32,8 +33,7 @@ def update_aws_cli_alias(command_subclass):
     def create_alias(config: configparser.ConfigParser):
         if not config.has_section('toplevel'):
             config.add_section('toplevel')
-        config['toplevel']['console'] = '!aws-console'
-        config['toplevel']['credential-process-from-system'] = '!aws-credential-process-from-system'
+        config['toplevel']['fusion'] = f'!{sys.executable} -m aws_fusion.app'
 
     def update_aws_cli_alias_file():
         if not os.path.isdir(CLI_DIR):
@@ -67,9 +67,9 @@ class CustomInstallScriptsCommand(install_scripts):
 
 
 setup(
-    name='aws_console',
-    version=find_version('aws_console', '__init__.py'),
-    description='AWS Console Login Utility',
+    name='aws_fusion',
+    version=find_version('aws_fusion', '__init__.py'),
+    description='Unified CLI tool for streamlined AWS operations',
     keywords=[
         'aws',
         'aws-sdk',
@@ -86,8 +86,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'aws-console = aws_console:aws_console',
-            'aws-credential-process-from-system = aws_console:aws_credential_process_from_system'
+            'aws-fusion = aws_fusion.app:main',
         ]
     },
     install_requires=[
@@ -97,7 +96,7 @@ setup(
     ],
     author='Snigdhajyoti Ghosh',
     author_email='snigdhajyotighos.h@gmail.com',
-    url='https://github.com/snigdhasjg/aws-console',
+    url='https://github.com/snigdhasjg/aws-fusion',
     license="MIT License",
     classifiers=[
         'Programming Language :: Python :: 3',
