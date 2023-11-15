@@ -27,10 +27,12 @@ To invoke the cli, there are 2 option
 2. Use it via [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) with `aws fusion`
 
 ---
-## Usage of `aws-fusion`
- - Make AWS credentials available via aws profile
- - Execute the script: `aws-fusion --profile my-profile`
- - :tada: Your browser opens, and you are signed in into the AWS console
+## Usage of `open-browser`
+> Try `aws-fusion open-browser --help` for detailed parameter
+
+- Make AWS credentials available via aws profile 
+- Execute the script: `aws-fusion open-browser --profile my-profile`
+- :tada: Your browser opens, and you are signed in into the AWS console
 
 ### Use cases
 This only works with assume-role and federated-login, doesn't work with IAM user or user session.
@@ -62,7 +64,7 @@ output = json
 ```
 
 #### Federated login
-Using IAM Identity Center, you can login to Active Directory, a built-in IAM Identity Center directory, or another IdP connected to IAM Identity Center. You can map these credentials to an AWS Identity and Access Management (IAM) role for you to run AWS CLI commands.
+Using IAM Identity Center, you can log in to Active Directory, a built-in IAM Identity Center directory, or another IdP connected to IAM Identity Center. You can map these credentials to an AWS Identity and Access Management (IAM) role for you to run AWS CLI commands.
 
 In the following examples, using `aws-sso` profile assumes `sso-read-only-role` on `111122223333` account.
 
@@ -82,45 +84,66 @@ sso_start_url = https://my-sso-portal.awsapps.com/start
 sso_registration_scopes = sso:account:access
 ```
 
-> Try `aws-fusion --help` for detailed parameter
-
 ### Refer
 The docs
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
 ---
-## Usage of `aws-credential-process-from-system`
-The tool provides two main commands: `store` and `get`.
-- Store AWS credentials in system default credential store
-- Retrieve AWS credentials from system default credential store. Optionally plug the CLI to aws external credential process.
+## Usage of `store-iam-user-credentials`
+> Try `aws-fusion store-iam-user-credentials --help` for detailed parameter
+
+Store AWS credentials in system default credential store
 
 ### Use cases
 To store IAM user credential in the system credential store for best security rather than plain text `~/.aws/credentials` file.
 
-Manully the save the credential in the store using
+Manually the save the credential in the store using
 ```bash
-aws-credential-process-from-system store \
+aws-fusion store-iam-user-credentials \
     --access-key 'AKIAIOSFODNN7EXAMPLE' \
     --secret-key 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' \
     --account-id '123456789012' \
     --username 'my-iam-user'
 ```
 
+---
+## Usage of `get-iam-user-credentials`
+> Try `aws-fusion get-iam-user-credentials --help` for detailed parameter
+
+Retrieve AWS credentials from system default credential store. Optionally plug the CLI to aws external credential process.
+
+### Use cases
 Configure aws config file to use credential process
+
 **Config file**
 ```
 [profile iam-user]
 region = us-east-1
 output = json
-credential_process = aws-credential-process-from-system get --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE'
+credential_process = aws-fusion get-iam-user-credentials --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE' --credential-process
 ```
-
-> Try `aws-credential-process-from-system --help` for detailed parameter
 
 ### Refer
 The docs
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+
+---
+## Usage of `generate-okta-device-auth-credentials`
+> Try `aws-fusion generate-okta-device-auth-credentials --help` for detailed parameter
+
+Simplifies the process of obtaining AWS session credentials using SAML assertion from Okta device authentication
+
+### Use cases
+Configure aws config file to use credential process
+
+**Config file**
+```
+[profile iam-user]
+region = us-east-1
+output = json
+credential_process = aws-fusion generate-okta-device-auth-credentials --org-domain my.okta.com --oidc-client-id 0pbs4fq1q2vbGoFkC1m7 --aws-acct-fed-app-id 0oa8z9xa8BS9b2AFb1t7 --aws-iam-role arn:aws:iam::123456789012:role/PowerUsers --credential-process
+```
 
 ---
 ## License
