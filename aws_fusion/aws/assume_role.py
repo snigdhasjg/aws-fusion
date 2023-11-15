@@ -10,7 +10,8 @@ import json
 
 LOG = logging.getLogger(__name__)
 
-class AssumeRoleWithSamlCache():
+
+class AssumeRoleWithSamlCache:
     __jsonFileCache = JSONFileCache()
 
     def __init__(self, role) -> None:
@@ -45,9 +46,9 @@ class AssumeRoleWithSamlCache():
             "Expiration": credentials['Expiration'].strftime('%Y-%m-%dT%H:%M:%S%Z')
         })
     
-    def environement_variable(self):
+    def environment_variable(self):
         credentials = self.__response['Credentials']
-        LOG.debug(f'Giving credential as environement variable format')
+        LOG.debug(f'Giving credential as environment variable format')
 
         command = '$env:' if sys.platform == 'win32' else 'export '
 
@@ -55,7 +56,7 @@ class AssumeRoleWithSamlCache():
         print(f'{command}AWS_SECRET_ACCESS_KEY="{credentials["SecretAccessKey"]}"')
         print(f'{command}AWS_SESSION_TOKEN="{credentials["SessionToken"]}"')
 
-    def assume_role_with_saml(self, saml_response, roles, sessoion_duration):
+    def assume_role_with_saml(self, saml_response, roles, session_duration):
         LOG.debug(f'Started assumning role with SAML')
         client = boto3.Session(aws_access_key_id='dummy', aws_secret_access_key='dummy').client('sts')
         selected_role = self.__role
@@ -64,7 +65,7 @@ class AssumeRoleWithSamlCache():
                 RoleArn=selected_role,
                 PrincipalArn=roles[selected_role],
                 SAMLAssertion=saml_response,
-                DurationSeconds=sessoion_duration
+                DurationSeconds=session_duration
             )
             LOG.debug('Got assume role response')
         except ClientError:

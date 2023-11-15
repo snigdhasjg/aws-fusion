@@ -3,6 +3,7 @@ import json
 import keyring
 import sys
 
+
 def setup(subparsers, parent_parser):
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument('--access-key', required=True, help='AWS access key')
@@ -23,6 +24,7 @@ def setup(subparsers, parent_parser):
 def run_store(args):
     service_name = '-'.join(filter(None, ['aws', args.account_id, args.username]))
     keyring.set_password(service_name, args.access_key, args.secret_key)
+
 
 def run_get(args):
     service_name = '-'.join(filter(None, ['aws', args.account_id, args.username]))

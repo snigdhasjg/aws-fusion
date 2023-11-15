@@ -4,14 +4,6 @@ Unified CLI tool for streamlined AWS operations, enhancing developer productivit
 [![Tag][tag-badge]][tag]
 [![Tagging][actions-workflow-tagging-badge]][actions-workflow-tagging]
 
-## Command line tool
-- `aws-fusion`
-- `aws-credential-process-from-system`
-
-Additonally this creates [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) for all the tools
-- `aws console`
-- `aws credential-process-from-system`
-
 ## Installation
 ### Via Pip directly
 Install via pip install.
@@ -28,6 +20,11 @@ git clone https://github.com/snigdhasjg/aws-fusion.git
 cd aws-fusion
 pip install .
 ```
+
+## Command line tool
+To invoke the cli, there are 2 option
+1. Directly use `aws-fusion` command
+2. Use it via [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) with `aws fusion`
 
 ---
 ## Usage of `aws-fusion`

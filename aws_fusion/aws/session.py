@@ -3,7 +3,7 @@ import boto3
 
 
 class TokenGenerationException(Exception):
-    "Exception for credential not having token"
+    """Exception for credential not having token"""
     pass
 
 
@@ -20,13 +20,13 @@ def credentials(profile_name, region_name):
 
 
 def __update_credential_provider_cache(session):
-    "Setting up a custom cache implementation like aws cli"
+    """Setting up a custom cache implementation like aws cli"""
 
     cred_chain = session._session.get_component('credential_provider')
-    jsonFileCache = JSONFileCache()
+    json_file_cache = JSONFileCache()
 
     def _update(provider_name):
-        cred_chain.get_provider(provider_name).cache = jsonFileCache
+        cred_chain.get_provider(provider_name).cache = json_file_cache
 
     provider_for_cache = [
         'assume-role',

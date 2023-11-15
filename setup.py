@@ -22,13 +22,14 @@ def find_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
 
+
 def update_aws_cli_alias(command_subclass):
     """
     A decorator for classes subclassing one of the setuptools commands.
     It modifies the run() method so that it prints a friendly greeting.
     """
     orig_run = command_subclass.run
-    CLI_DIR = os.path.expanduser(os.path.join('~', '.aws', 'cli'))
+    cli_dir = os.path.expanduser(os.path.join('~', '.aws', 'cli'))
 
     def create_alias(config: configparser.ConfigParser):
         if not config.has_section('toplevel'):
@@ -36,9 +37,9 @@ def update_aws_cli_alias(command_subclass):
         config['toplevel']['fusion'] = f'!{sys.executable} -m aws_fusion.app'
 
     def update_aws_cli_alias_file():
-        if not os.path.isdir(CLI_DIR):
-            os.makedirs(CLI_DIR)
-        cli_alias_full_path = os.path.join(CLI_DIR, 'alias')
+        if not os.path.isdir(cli_dir):
+            os.makedirs(cli_dir)
+        cli_alias_full_path = os.path.join(cli_dir, 'alias')
         config = configparser.ConfigParser()
 
         if os.path.isfile(cli_alias_full_path):
@@ -57,9 +58,11 @@ def update_aws_cli_alias(command_subclass):
     command_subclass.run = modified_run
     return command_subclass
 
+
 @update_aws_cli_alias
 class CustomDevelopCommand(develop):
     pass
+
 
 @update_aws_cli_alias
 class CustomInstallScriptsCommand(install_scripts):

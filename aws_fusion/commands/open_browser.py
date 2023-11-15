@@ -6,6 +6,7 @@ import sys
 from ..aws.session import credentials
 from ..aws.api import signin_url
 
+
 def setup(subparsers, parent_parser):
     summary = 'Open a web browser for graphical access to the AWS Console'
     parser = subparsers.add_parser('open-browser', description=summary, help=summary, parents=[parent_parser])
@@ -21,7 +22,8 @@ def setup(subparsers, parent_parser):
                         help="don't open the web browser, but copy the signin URL to clipboard")
     group1.add_argument('--stdout', action='store_true',
                         help="don't open the web browser, but echo the signin URL to stdout")
-    
+
+
 def run(args):
     creds, region_name = credentials(args.profile, args.region)
     url = signin_url(creds, region_name)

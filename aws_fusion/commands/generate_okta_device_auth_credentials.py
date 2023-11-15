@@ -2,9 +2,10 @@ import os
 import logging
 
 from ..aws.assume_role import AssumeRoleWithSamlCache
-from ..okta.api import device_auth, verifiction_and_token, session_and_token, saml_assertion
+from ..okta.api import device_auth, verification_and_token, session_and_token, saml_assertion
 
 LOG = logging.getLogger(__name__)
+
 
 def setup(subparsers, parent_parser):
     summary = 'Generate AWS session credentials using SAML assertion from Okta device authentication'
@@ -17,20 +18,20 @@ def setup(subparsers, parent_parser):
     parser.add_argument('--credential-process', action='store_true', help='Output the credential in AWS credential process syntax')
 
     parser.set_defaults(func=run)
-    
+
+
 def run(args):
     assume_role_with_cache = AssumeRoleWithSamlCache(args.aws_iam_role)
 
     if not assume_role_with_cache.does_valid_token_cache_exists():
         LOG.debug('Credential cache not found, invloking SAML')
         device_code = device_auth(args.org_domain, args.oidc_client_id)
-        access_token, id_token = verifiction_and_token(args.org_domain, args.oidc_client_id, device_code)
+        access_token, id_token = verification_and_token(args.org_domain, args.oidc_client_id, device_code)
         session_token = session_and_token(args.org_domain, args.oidc_client_id, access_token, id_token, args.aws_acct_fed_app_id)
-        saml_response, roles, sessoion_duration = saml_assertion(args.org_domain, session_token)
-        assume_role_with_cache.assume_role_with_saml(saml_response, roles, sessoion_duration)
+        saml_response, roles, session_duration = saml_assertion(args.org_domain, session_token)
+        assume_role_with_cache.assume_role_with_saml(saml_response, roles, session_duration)
 
     if args.credential_process:
         print(assume_role_with_cache.credential_process())
     else:
-        print(assume_role_with_cache.environement_variable())
-    
+        print(assume_role_with_cache.environment_variable())
