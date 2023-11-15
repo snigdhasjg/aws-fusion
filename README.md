@@ -5,20 +5,10 @@ Unified CLI tool for streamlined AWS operations, enhancing developer productivit
 [![Tagging][actions-workflow-tagging-badge]][actions-workflow-tagging]
 
 ## Installation
-### Via Pip directly
-Install via pip install.
-_note this also requires git to be present_
+Install via pip install
 
 ```shell
-pip install git+https://github.com/snigdhasjg/aws-fusion.git@main
-```
-
-### Manually
-Simply clone this repository and run pip install
-```shell
-git clone https://github.com/snigdhasjg/aws-fusion.git
-cd aws-fusion
-pip install .
+pip install aws-fusion
 ```
 
 ## Command line tool
