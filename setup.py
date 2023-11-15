@@ -70,7 +70,7 @@ class CustomInstallScriptsCommand(install_scripts):
 
 
 setup(
-    name='aws_fusion',
+    name='aws-fusion',
     version=find_version('aws_fusion', '__init__.py'),
     description='Unified CLI tool for streamlined AWS operations',
     keywords=[
@@ -93,9 +93,12 @@ setup(
         ]
     },
     install_requires=[
-        'boto3>=1.28',
-        'pyperclip>=1.8,<1.9',
-        'keyring>=24.2,<24.3'
+        'boto3>=1.29',
+        'botocore>=1.32',
+        'pyperclip>=1.8',
+        'keyring>=24.3',
+        'beautifulsoup4>=4.12',
+        'requests>=2.31'
     ],
     author='Snigdhajyoti Ghosh',
     author_email='snigdhajyotighos.h@gmail.com',
@@ -107,7 +110,7 @@ setup(
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
         'Operating System :: OS Independent',
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 4 - Beta',
         'Topic :: Utilities'
     ],
 )

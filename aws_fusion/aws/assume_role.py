@@ -3,10 +3,10 @@ import boto3
 import hashlib
 import datetime
 import logging
+import json
+
 from botocore.exceptions import ClientError
 from botocore.utils import JSONFileCache
-
-import json
 
 LOG = logging.getLogger(__name__)
 

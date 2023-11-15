@@ -1,5 +1,6 @@
-from botocore.utils import JSONFileCache
 import boto3
+
+from botocore.utils import JSONFileCache
 
 
 class TokenGenerationException(Exception):

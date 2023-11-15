@@ -1,4 +1,3 @@
-import os
 import logging
 
 from ..aws.assume_role import AssumeRoleWithSamlCache
@@ -24,7 +23,7 @@ def run(args):
     assume_role_with_cache = AssumeRoleWithSamlCache(args.aws_iam_role)
 
     if not assume_role_with_cache.does_valid_token_cache_exists():
-        LOG.debug('Credential cache not found, invloking SAML')
+        LOG.debug('Credential cache not found, invoking SAML')
         device_code = device_auth(args.org_domain, args.oidc_client_id)
         access_token, id_token = verification_and_token(args.org_domain, args.oidc_client_id, device_code)
         session_token = session_and_token(args.org_domain, args.oidc_client_id, access_token, id_token, args.aws_acct_fed_app_id)
