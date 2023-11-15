@@ -82,6 +82,7 @@ setup(
         'aws-auth'
     ],
     long_description=read("README.md"),
+    long_description_content_type='text/markdown',
     packages=find_packages(),
     cmdclass={
         'develop': CustomDevelopCommand,
@@ -94,7 +95,7 @@ setup(
     },
     install_requires=[
         'boto3>=1.29',
-        'botocore>=1.32',
+        'botocore>=1.29',
         'pyperclip>=1.8',
         'keyring>=24.3',
         'beautifulsoup4>=4.12',
