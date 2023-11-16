@@ -95,7 +95,6 @@ setup(
     },
     install_requires=[
         'boto3>=1.29',
-        'botocore>=1.29',
         'pyperclip>=1.8',
         'keyring>=24.3',
         'beautifulsoup4>=4.12',
