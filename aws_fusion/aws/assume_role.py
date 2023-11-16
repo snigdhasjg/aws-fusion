@@ -42,8 +42,7 @@ class AssumeRoleWithSamlCache:
             "Version": 1,
             "AccessKeyId": credentials['AccessKeyId'],
             "SecretAccessKey": credentials['SecretAccessKey'],
-            "SessionToken": credentials['SessionToken'],
-            "Expiration": credentials['Expiration'].strftime('%Y-%m-%dT%H:%M:%S%Z')
+            "SessionToken": credentials['SessionToken']
         })
     
     def environment_variable(self):
@@ -52,12 +51,14 @@ class AssumeRoleWithSamlCache:
 
         command = '$env:' if sys.platform == 'win32' else 'export '
 
-        print(f'{command}AWS_ACCESS_KEY_ID="{credentials["AccessKeyId"]}"')
-        print(f'{command}AWS_SECRET_ACCESS_KEY="{credentials["SecretAccessKey"]}"')
-        print(f'{command}AWS_SESSION_TOKEN="{credentials["SessionToken"]}"')
+        return '\n'.join([
+            f'{command}AWS_ACCESS_KEY_ID="{credentials["AccessKeyId"]}"',
+            f'{command}AWS_SECRET_ACCESS_KEY="{credentials["SecretAccessKey"]}"',
+            f'{command}AWS_SESSION_TOKEN="{credentials["SessionToken"]}"'
+        ])
 
     def assume_role_with_saml(self, saml_response, roles, session_duration):
-        LOG.debug(f'Started assumning role with SAML')
+        LOG.debug(f'Started assuming role with SAML')
         client = boto3.Session(aws_access_key_id='dummy', aws_secret_access_key='dummy').client('sts')
         selected_role = self.__role
         try:
