@@ -97,6 +97,5 @@ def saml_assertion(org_domain, session_token):
                                        {"Name": "https://aws.amazon.com/SAML/Attributes/SessionDuration"})
     session_duration = session_duration_xml.find("saml2:AttributeValue").text
 
-    LOG.debug('Got valid SAML response')
-    time.sleep(5)
+    LOG.debug(f'Got valid SAML response: {saml_response}')
     return saml_response, roles, int(session_duration)
