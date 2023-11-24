@@ -1,26 +1,86 @@
 name: Publish to PyPI
 
 on:
-  release:
-    types:
-      - created
+  workflow_dispatch:
+    inputs:
+      test_publish:
+        description: "Publish to test PyPI"
+        type: boolean
+        default: false
+
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/publish.yml"
+      - "aws_fusion/**"
+      - "setup.py"
 
 concurrency: publish
 
+env:
+  PYTHON_VERSION: '3.11'
+
 jobs:
-  build:
+  tagging:
     runs-on: ubuntu-latest
-    environment: pypi
+    name: Auto Tagging
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.package_info.outputs.tag }}
+      tag_pre_exist: ${{ steps.package_info.outputs.tag_pre_exist }}
+    steps:
+      - name: Checkout 🔔
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Get package information
+        id: package_info
+        run: |
+          current_version=$(./setup.py --version)
+          
+          tag_pre_exist=false
+          if git rev-parse "refs/tags/v$current_version" >/dev/null 2>&1; then
+              echo "::warning title=Tag already exists::v${current_version}"
+              tag_pre_exist=true
+          fi
+          
+          echo "tag=v${current_version}" >> "$GITHUB_OUTPUT"
+          echo "tag_pre_exist=${tag_pre_exist}" >> "$GITHUB_OUTPUT"
+    
+      - name: Add git tag
+        if: ${{ steps.package_info.outputs.tag_pre_exist == 'false' }}
+        run: |
+          git tag ${{ steps.package_info.outputs.tag }}
+          git push origin ${{ steps.package_info.outputs.tag }}
+
+  publish:
+    needs: tagging
+    if: ${{ inputs.test_publish || needs.tagging.outputs.tag_pre_exist == 'false' }}
+    runs-on: ubuntu-latest
+    name: Publish
+    environment:
+      name: pypi
+      url: "https://${{ inputs.test_publish && 'test.' || '' }}pypi.org/project/aws-fusion"
     permissions:
       id-token: write
     steps:
-      - name: Checkout code
+      - name: Checkout 🔔
         uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.tagging.outputs.tag }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies
         run: |
@@ -28,8 +88,15 @@ jobs:
           pip install setuptools wheel twine
 
       - name: Build
-        run: |
-          python setup.py sdist bdist_wheel
+        run: python setup.py sdist bdist_wheel
 
       - name: Publish release distributions to PyPI
+        if: ${{ ! inputs.test_publish }}
         uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Publish release distributions to Test PyPI
+        if: ${{ inputs.test_publish }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+

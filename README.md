@@ -2,7 +2,7 @@
 Unified CLI tool for streamlined AWS operations, enhancing developer productivity
 
 [![Tag][tag-badge]][tag]
-[![Tagging][actions-workflow-tagging-badge]][actions-workflow-tagging]
+[![Publish][actions-workflow-publish-badge]][actions-workflow-publish]
 
 ## Installation
 Install via pip install
@@ -144,5 +144,5 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 [tag]: https://github.com/snigdhasjg/aws-fusion/tags
 [tag-badge]: https://img.shields.io/github/v/tag/snigdhasjg/aws-fusion?style=for-the-badge&logo=github
 
-[actions-workflow-tagging]: https://github.com/snigdhasjg/aws-fusion/actions/workflows/tagging.yml
-[actions-workflow-tagging-badge]: https://img.shields.io/github/actions/workflow/status/snigdhasjg/aws-fusion/tagging.yml?branch=main&label=Tagging&style=for-the-badge&logo=githubactions
+[actions-workflow-publish]: https://github.com/snigdhasjg/aws-fusion/actions/workflows/publish.yml
+[actions-workflow-publish-badge]: https://img.shields.io/github/actions/workflow/status/snigdhasjg/aws-fusion/publish.yml?branch=main&label=Publish&style=for-the-badge&logo=githubactions
