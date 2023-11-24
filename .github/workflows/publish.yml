@@ -65,7 +65,7 @@ jobs:
     needs: tagging
     if: ${{ inputs.test_publish || needs.tagging.outputs.tag_pre_exist == 'false' }}
     runs-on: ubuntu-latest
-    name: Publish
+    name: "${{ inputs.test_publish && 'Test ' || '' }}Publish"
     environment:
       name: pypi
       url: "https://${{ inputs.test_publish && 'test.' || '' }}pypi.org/project/aws-fusion"
@@ -91,12 +91,7 @@ jobs:
         run: python setup.py sdist bdist_wheel
 
       - name: Publish release distributions to PyPI
-        if: ${{ ! inputs.test_publish }}
-        uses: pypa/gh-action-pypi-publish@release/v1
-
-      - name: Publish release distributions to Test PyPI
-        if: ${{ inputs.test_publish }}
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: https://test.pypi.org/legacy/
+          repository-url: ${{ inputs.test_publish && 'https://test.pypi.org/legacy/' || '' }}
 

@@ -16,6 +16,19 @@ To invoke the cli, there are 2 option
 1. Directly use `aws-fusion` command
 2. Use it via [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) with `aws fusion`
 
+## Commands
+- [init](#usage-of-init)
+- [open-browser](#usage-of-open-browser)
+- [store-iam-user-credentials](#usage-of-store-iam-user-credentials)
+- [get-iam-user-credentials](#usage-of-get-iam-user-credentials)
+- [generate-okta-device-auth-credentials](#usage-of-generate-okta-device-auth-credentials)
+
+---
+## Usage of `init`
+> Try `aws-fusion init --help` for detailed parameter
+
+Initilize fusion app with creation of aws fusion alias
+
 ---
 ## Usage of `open-browser`
 > Try `aws-fusion open-browser --help` for detailed parameter
