@@ -24,8 +24,8 @@ def run(args):
 
     if not assume_role_with_cache.does_valid_token_cache_exists():
         LOG.debug('Credential cache not found, invoking SAML')
-        device_code = device_auth(args.org_domain, args.oidc_client_id)
-        access_token, id_token = verification_and_token(args.org_domain, args.oidc_client_id, device_code)
+        device_code, expires_in = device_auth(args.org_domain, args.oidc_client_id)
+        access_token, id_token = verification_and_token(args.org_domain, args.oidc_client_id, device_code, expires_in)
         session_token = session_and_token(args.org_domain, args.oidc_client_id, access_token, id_token, args.aws_acct_fed_app_id)
         saml_response, roles, session_duration = saml_assertion(args.org_domain, session_token)
         assume_role_with_cache.assume_role_with_saml(saml_response, roles, session_duration)

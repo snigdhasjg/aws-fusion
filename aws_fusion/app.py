@@ -4,6 +4,7 @@ import logging
 from importlib.metadata import version
 from .commands import open_browser, iam_user_credentials, generate_okta_device_auth_credentials, init
 
+
 def main():
     global_parser = argparse.ArgumentParser(add_help=False)
     global_parser.add_argument('-v', '--version', action='version', help="Display the version of this tool", version=version("aws_fusion"))
@@ -18,10 +19,10 @@ def main():
     init.setup(subparsers, global_parser)
 
     args = main_parser.parse_args()
-    
+
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
-    
+
     # Call the associated function for the selected sub-command
     if hasattr(args, 'func'):
         args.func(args)
