@@ -1,0 +1,16 @@
+#!/bin/bash
+
+aws-fusion config-switch profile
+
+selected_profile="$(cat ~/.aws/fusion/profile)"
+
+# Unset region as switching profile
+unset AWS_REGION
+
+if [ -z "$selected_profile" ]
+then
+  # Unset profile for default profile
+  unset AWS_PROFILE
+else
+  export AWS_PROFILE="$selected_profile"
+fi

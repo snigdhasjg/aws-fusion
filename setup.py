@@ -39,6 +39,10 @@ setup(
             'aws-fusion = aws_fusion.app:main',
         ]
     },
+    scripts=[
+        'bin/_awsp',
+        'bin/_awsr'
+    ],
     install_requires=[
         'boto3>=1.29',
         'pyperclip>=1.8',

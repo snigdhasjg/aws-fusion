@@ -1,7 +1,6 @@
 import inquirer
 import boto3
 import os
-import sys
 
 
 def setup(subparsers, parent_parser):
@@ -34,9 +33,9 @@ def switch_profile(args):
     ]
 
     answers = inquirer.prompt(questions, theme=inquirer.themes.GreenPassion())
-    profile = answers.get('profile')
-    command = '$env:' if sys.platform == 'win32' else 'export '
-    print(f'{command}AWS_PROFILE="{profile}"')
+
+    profile = answers.get('profile') if answers.get('profile') != 'default' else None
+    __update_file('profile', profile)
 
 
 def switch_region(args):
@@ -54,6 +53,19 @@ def switch_region(args):
     ]
 
     answers = inquirer.prompt(questions, theme=inquirer.themes.GreenPassion())
-    region = answers.get('region')
-    command = '$env:' if sys.platform == 'win32' else 'export '
-    print(f'{command}AWS_REGION="{region}"')
+
+    region = answers.get('region') if answers.get('region') != session.region_name else None
+    __update_file('region', region)
+
+
+def __update_file(file_name, value):
+    config_dir = os.path.expanduser(os.path.join('~', '.aws', 'fusion'))
+    if not os.path.isdir(config_dir):
+        os.makedirs(config_dir)
+    full_key = os.path.join(config_dir, file_name)
+    with os.fdopen(
+            os.open(full_key, os.O_WRONLY | os.O_CREAT, 0o600), 'w'
+    ) as f:
+        f.truncate()
+        if value is not None:
+            f.write(value)

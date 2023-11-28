@@ -1,0 +1,13 @@
+#!/bin/bash
+
+aws-fusion config-switch region
+
+selected_region="$(cat ~/.aws/fusion/region)"
+
+if [ -z "$selected_region" ]
+then
+  # Unset region as it is same one mentioned in the current profile
+  unset AWS_REGION
+else
+  export AWS_REGION="$selected_region"
+fi
