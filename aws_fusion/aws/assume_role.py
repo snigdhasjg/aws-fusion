@@ -4,6 +4,7 @@ import hashlib
 import datetime
 import logging
 import json
+import os
 
 from botocore.exceptions import ClientError
 from botocore.utils import JSONFileCache
@@ -12,7 +13,8 @@ LOG = logging.getLogger(__name__)
 
 
 class AssumeRoleWithSamlCache:
-    __jsonFileCache = JSONFileCache()
+    __CACHE_DIR = os.path.expanduser(os.path.join('~', '.aws', 'saml', 'cache'))
+    __jsonFileCache = JSONFileCache(__CACHE_DIR)
 
     def __init__(self, role) -> None:
         LOG.debug('Initialize AssumeRoleWithSamlCache')
@@ -23,10 +25,13 @@ class AssumeRoleWithSamlCache:
     def does_valid_token_cache_exists(self):
         if self.__cache_key in self.__jsonFileCache:
             response = self.__jsonFileCache[self.__cache_key]
-            expiration = datetime.datetime.strptime(response['Credentials']['Expiration'], '%Y-%m-%dT%H:%M:%S%Z')
-            current_utc_time = datetime.datetime.utcnow()
+            expiration = (datetime.datetime
+                          .strptime(response['Credentials']['Expiration'], '%Y-%m-%dT%H:%M:%S%Z')
+                          .replace(tzinfo=datetime.timezone.utc))
+            current_utc_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
             if expiration - current_utc_time >= datetime.timedelta(minutes=1):
-                response['Credentials']['Expiration'] = expiration.replace(tzinfo=datetime.timezone.utc)
+                response['Credentials']['Expiration'] = expiration
                 self.__response = response
                 LOG.debug('Valid token exists. Can use cache')
                 return True
@@ -42,9 +47,10 @@ class AssumeRoleWithSamlCache:
             "Version": 1,
             "AccessKeyId": credentials['AccessKeyId'],
             "SecretAccessKey": credentials['SecretAccessKey'],
-            "SessionToken": credentials['SessionToken']
+            "SessionToken": credentials['SessionToken'],
+            "Expiration": credentials['Expiration'].isoformat()
         })
-    
+
     def environment_variable(self):
         credentials = self.__response['Credentials']
         LOG.debug(f'Giving credential as environment variable format')
@@ -59,6 +65,7 @@ class AssumeRoleWithSamlCache:
 
     def assume_role_with_saml(self, saml_response, roles, session_duration):
         LOG.debug(f'Started assuming role with SAML')
+        # Just need a dummy sts session client object to call assume role with saml
         client = boto3.Session(aws_access_key_id='dummy', aws_secret_access_key='dummy').client('sts')
         selected_role = self.__role
         try:
@@ -82,4 +89,3 @@ class AssumeRoleWithSamlCache:
         self.__jsonFileCache[self.__cache_key] = response
 
         self.__response = response
-

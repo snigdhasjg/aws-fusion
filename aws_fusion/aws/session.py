@@ -1,9 +1,11 @@
 import boto3
 import logging
+import os
 
 from botocore.utils import JSONFileCache
 
 LOG = logging.getLogger(__name__)
+
 
 class TokenGenerationException(Exception):
     """Exception for credential not having token"""
@@ -26,9 +28,10 @@ def credentials(profile_name, region_name):
 
 def __update_credential_provider_cache(session):
     """Setting up a custom cache implementation like aws cli"""
+    cache_dir = os.path.expanduser(os.path.join('~', '.aws', 'cli', 'cache'))
 
     cred_chain = session._session.get_component('credential_provider')
-    json_file_cache = JSONFileCache()
+    json_file_cache = JSONFileCache(cache_dir)
 
     def _update(provider_name):
         cred_chain.get_provider(provider_name).cache = json_file_cache
