@@ -2,7 +2,7 @@ import argparse
 import logging
 
 from importlib.metadata import version
-from .commands import open_browser, iam_user_credentials, generate_okta_device_auth_credentials, init
+from .commands import open_browser, iam_user_credentials, generate_okta_device_auth_credentials, init, config_switch
 
 
 def main():
@@ -17,6 +17,7 @@ def main():
     iam_user_credentials.setup(subparsers, global_parser)
     generate_okta_device_auth_credentials.setup(subparsers, global_parser)
     init.setup(subparsers, global_parser)
+    config_switch.setup(subparsers, global_parser)
 
     args = main_parser.parse_args()
 

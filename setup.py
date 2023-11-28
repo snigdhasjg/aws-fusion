@@ -44,7 +44,8 @@ setup(
         'pyperclip>=1.8',
         'keyring>=24.3',
         'beautifulsoup4>=4.12',
-        'requests>=2.31'
+        'requests>=2.31',
+        'inquirer>=3.1'
     ],
     author='Snigdhajyoti Ghosh',
     author_email='snigdhajyotighos.h@gmail.com',
