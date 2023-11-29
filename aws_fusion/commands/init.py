@@ -1,7 +1,7 @@
-import os
 import configparser
-import sys
 import logging
+import os
+import sys
 
 
 LOG = logging.getLogger(__name__)

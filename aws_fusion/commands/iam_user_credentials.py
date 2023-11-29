@@ -1,7 +1,8 @@
 import argparse
 import json
-import keyring
 import sys
+
+import keyring
 
 
 def setup(subparsers, parent_parser):

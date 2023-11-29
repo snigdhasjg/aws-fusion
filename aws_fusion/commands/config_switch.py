@@ -1,6 +1,11 @@
-import inquirer
-import boto3
+import logging
 import os
+
+import boto3
+import inquirer
+
+
+LOG = logging.getLogger(__name__)
 
 
 def setup(subparsers, parent_parser):
@@ -22,7 +27,11 @@ def switch_profile(args):
     available_profiles = session.available_profiles
 
     profile_inquiry = inquirer.List("profile", message="Choose a profile", choices=available_profiles, default=session.profile_name, carousel=True)
-    answers = inquirer.prompt([profile_inquiry], theme=inquirer.themes.GreenPassion())
+    try:
+        answers = inquirer.prompt([profile_inquiry], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
+    except KeyboardInterrupt:
+        LOG.warning('Cancelled by user')
+        exit(7)
 
     profile = answers.get('profile') if answers.get('profile') != 'default' else None
     __update_file('profile', profile)
@@ -33,7 +42,11 @@ def switch_region(args):
     available_regions = session.get_available_regions('ec2')
 
     region_inquery = inquirer.List("region", message="Choose a region", choices=available_regions, default=session.region_name, carousel=True)
-    answers = inquirer.prompt([region_inquery], theme=inquirer.themes.GreenPassion())
+    try:
+        answers = inquirer.prompt([region_inquery], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
+    except KeyboardInterrupt:
+        LOG.warning('Cancelled by user')
+        exit(7)
 
     region = answers.get('region') if answers.get('region') != session.region_name else None
     __update_file('region', region)

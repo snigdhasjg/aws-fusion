@@ -1,7 +1,10 @@
 import logging
 
 from ..aws.assume_role import AssumeRoleWithSamlCache
-from ..okta.api import device_auth, verification_and_token, session_and_token, saml_assertion
+from ..okta.api import device_auth
+from ..okta.api import saml_assertion
+from ..okta.api import session_and_token
+from ..okta.api import verification_and_token
 
 
 LOG = logging.getLogger(__name__)

@@ -1,8 +1,9 @@
-import boto3
 import logging
 import os
 
+import boto3
 from botocore.utils import JSONFileCache
+
 
 LOG = logging.getLogger(__name__)
 

@@ -1,13 +1,14 @@
-import sys
-import boto3
-import hashlib
 import datetime
-import logging
+import hashlib
 import json
+import logging
 import os
+import sys
 
+import boto3
 from botocore.exceptions import ClientError
 from botocore.utils import JSONFileCache
+
 
 LOG = logging.getLogger(__name__)
 

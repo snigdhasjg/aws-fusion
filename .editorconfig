@@ -7,3 +7,4 @@ ij_python_blank_lines_after_imports = 2
 ij_python_optimize_imports_sort_imports = true
 ij_python_call_parameters_wrap = off
 ij_python_method_parameters_wrap = off
+ij_python_optimize_imports_always_split_from_imports = true

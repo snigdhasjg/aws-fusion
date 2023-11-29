@@ -1,8 +1,12 @@
 import argparse
 import logging
-
 from importlib.metadata import version
-from .commands import open_browser, iam_user_credentials, generate_okta_device_auth_credentials, init, config_switch
+
+from .commands import config_switch
+from .commands import generate_okta_device_auth_credentials
+from .commands import iam_user_credentials
+from .commands import init
+from .commands import open_browser
 
 
 def main():

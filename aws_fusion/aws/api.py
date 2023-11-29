@@ -1,6 +1,7 @@
 import json
+from urllib import parse
+from urllib import request
 
-from urllib import parse, request
 
 ISSUER = "aws-console-python-script"
 SESSION_DURATION_IN_SECONDS = 43200

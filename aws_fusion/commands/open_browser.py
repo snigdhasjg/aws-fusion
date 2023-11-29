@@ -1,11 +1,12 @@
-import os
-import pyperclip
-import webbrowser
-import sys
 import logging
+import os
+import sys
+import webbrowser
 
-from ..aws.session import credentials
+import pyperclip
+
 from ..aws.api import signin_url
+from ..aws.session import credentials
 
 
 LOG = logging.getLogger(__name__)

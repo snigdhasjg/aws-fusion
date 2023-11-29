@@ -1,11 +1,10 @@
+import base64
 import json
+import logging
+import time
+import webbrowser
 
 import requests
-import webbrowser
-import time
-import base64
-import logging
-
 from bs4 import BeautifulSoup
 
 

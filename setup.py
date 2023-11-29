@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-import re
 import os
-from setuptools import setup, find_packages
+import re
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 here = os.path.abspath(os.path.dirname(__file__))
