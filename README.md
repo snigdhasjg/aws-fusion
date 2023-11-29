@@ -19,9 +19,14 @@ To invoke the cli, there are 2 option
 ## Commands
 - [init](#usage-of-init)
 - [open-browser](#usage-of-open-browser)
-- [store-iam-user-credentials](#usage-of-store-iam-user-credentials)
+- store-iam-user-credentials
+  - [store](#usage-of-iam-user-credentials-store)
+  - [get](#usage-of-iam-user-credentials-get)
 - [get-iam-user-credentials](#usage-of-get-iam-user-credentials)
 - [generate-okta-device-auth-credentials](#usage-of-generate-okta-device-auth-credentials)
+- [config-switch](#usage-of-config-switch)
+  - profile
+  - region
 
 ---
 ## Usage of `init`
@@ -93,8 +98,8 @@ The docs
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
 ---
-## Usage of `store-iam-user-credentials`
-> Try `aws-fusion store-iam-user-credentials --help` for detailed parameter
+## Usage of `iam-user-credentials store`
+> Try `aws-fusion iam-user-credentials store --help` for detailed parameter
 
 Store AWS credentials in system default credential store
 
@@ -103,7 +108,7 @@ To store IAM user credential in the system credential store for best security ra
 
 Manually the save the credential in the store using
 ```bash
-aws-fusion store-iam-user-credentials \
+aws-fusion iam-user-credentials store \
     --access-key 'AKIAIOSFODNN7EXAMPLE' \
     --secret-key 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' \
     --account-id '123456789012' \
@@ -111,8 +116,8 @@ aws-fusion store-iam-user-credentials \
 ```
 
 ---
-## Usage of `get-iam-user-credentials`
-> Try `aws-fusion get-iam-user-credentials --help` for detailed parameter
+## Usage of `iam-user-credentials get`
+> Try `aws-fusion iam-user-credentials get --help` for detailed parameter
 
 Retrieve AWS credentials from system default credential store. Optionally plug the CLI to aws external credential process.
 
@@ -124,7 +129,7 @@ Configure aws config file to use credential process
 [profile iam-user]
 region = us-east-1
 output = json
-credential_process = aws-fusion get-iam-user-credentials --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE' --credential-process
+credential_process = aws-fusion iam-user-credentials get --account-id 123456789012 --username 'my-iam-user' --access-key 'AKIAIOSFODNN7EXAMPLE' --credential-process
 ```
 
 ### Refer
@@ -146,6 +151,20 @@ Configure aws config file to use credential process
 region = us-east-1
 output = json
 credential_process = aws-fusion generate-okta-device-auth-credentials --org-domain my.okta.com --oidc-client-id 0pbs4fq1q2vbGoFkC1m7 --aws-acct-fed-app-id 0oa8z9xa8BS9b2AFb1t7 --aws-iam-role arn:aws:iam::123456789012:role/PowerUsers --credential-process
+```
+
+---
+## Usage of `config-switch`
+A special of utility script to help easily switch `profile` and `region`
+
+This works with 2 bash script, namely `_awsp` and `_awsr`
+> _Using the command without the bash script will have no effect_
+
+Post installing the app, create 2 aliases in `.bashrc` or `.zshrc` file.
+```shell
+## aws fusion setup
+alias awsp="source _awsp"
+alias awsr="source _awsr"
 ```
 
 ---
