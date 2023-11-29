@@ -1,6 +1,6 @@
 #!/bin/bash
 
-aws-fusion config-switch region
+$(dirname "$0")aws-fusion config-switch region
 
 selected_region="$(cat ~/.aws/fusion/region)"
 

@@ -1,0 +1,9 @@
+[*.py]
+max_line_length = 999
+ij_visual_guides = 120
+ij_wrap_on_typing = false
+ij_python_wrap_long_lines = false
+ij_python_blank_lines_after_imports = 2
+ij_python_optimize_imports_sort_imports = true
+ij_python_call_parameters_wrap = off
+ij_python_method_parameters_wrap = off

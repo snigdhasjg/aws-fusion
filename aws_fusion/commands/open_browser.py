@@ -7,6 +7,7 @@ import logging
 from ..aws.session import credentials
 from ..aws.api import signin_url
 
+
 LOG = logging.getLogger(__name__)
 
 

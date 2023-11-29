@@ -8,6 +8,7 @@ import logging
 
 from bs4 import BeautifulSoup
 
+
 LOG = logging.getLogger(__name__)
 
 
