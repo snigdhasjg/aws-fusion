@@ -4,10 +4,9 @@ import os
 
 
 def setup(subparsers, parent_parser):
-    summary = 'Switching between aws config'
+    summary = 'Switching between AWS config'
     parser = subparsers.add_parser('config-switch', description=summary, help=summary, parents=[parent_parser])
-
-    switch_subparsers = parser.add_subparsers(dest='switch_command', required=True, help='Available switch commands')
+    switch_subparsers = parser.add_subparsers(dest='config_switch_command', required=True, help='Available AWS config switch commands')
 
     profile_switch_summary = "Switch between available aws profile"
     profile_switch_parser = switch_subparsers.add_parser('profile', description=profile_switch_summary, help=profile_switch_summary, parents=[parent_parser])

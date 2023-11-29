@@ -13,11 +13,14 @@ def main():
     main_parser = argparse.ArgumentParser(prog='aws-fusion', description='Unified CLI tool for streamlined AWS operations, enhancing developer productivity', parents=[global_parser])
     subparsers = main_parser.add_subparsers(dest='command', required=True, help='Available commands')
 
-    open_browser.setup(subparsers, global_parser)
-    iam_user_credentials.setup(subparsers, global_parser)
-    generate_okta_device_auth_credentials.setup(subparsers, global_parser)
-    init.setup(subparsers, global_parser)
-    config_switch.setup(subparsers, global_parser)
+    commands = [
+        init,
+        open_browser,
+        iam_user_credentials,
+        generate_okta_device_auth_credentials,
+        config_switch
+    ]
+    [command.setup(subparsers, global_parser) for command in commands]
 
     args = main_parser.parse_args()
 
