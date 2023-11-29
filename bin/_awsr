@@ -1,6 +1,8 @@
 #!/bin/bash
 
 aws-fusion config-switch region
+# If non-zero status from program, then exit from here
+[ $? -ne 0 ] && return
 
 selected_region="$(cat ~/.aws/fusion/region)"
 

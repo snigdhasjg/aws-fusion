@@ -31,7 +31,7 @@ def switch_profile(args):
         answers = inquirer.prompt([profile_inquiry], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
     except KeyboardInterrupt:
         LOG.warning('Cancelled by user')
-        exit(7)
+        exit(73)
 
     profile = answers.get('profile') if answers.get('profile') != 'default' else None
     __update_file('profile', profile)
@@ -46,7 +46,7 @@ def switch_region(args):
         answers = inquirer.prompt([region_inquery], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
     except KeyboardInterrupt:
         LOG.warning('Cancelled by user')
-        exit(7)
+        exit(73)
 
     region = answers.get('region') if answers.get('region') != session.region_name else None
     __update_file('region', region)

@@ -1,10 +1,12 @@
 #!/bin/bash
 
 aws-fusion config-switch profile
+# If non-zero status from program, then exit from here
+[ $? -ne 0 ] && return
 
 selected_profile="$(cat ~/.aws/fusion/profile)"
 
-# Unset region as switching profile
+# Unset region as switching profile, will use the region which is set by the profile
 unset AWS_REGION
 
 if [ -z "$selected_profile" ]
