@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$(dirname "$0")/aws-fusion config-switch profile
+aws-fusion config-switch profile
 
 selected_profile="$(cat ~/.aws/fusion/profile)"
 
