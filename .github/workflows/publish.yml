@@ -12,9 +12,7 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/publish.yml"
-      - "aws_fusion/**"
-      - "setup.py"
+      - "aws_fusion/__init__.py"
 
 concurrency: publish
 
