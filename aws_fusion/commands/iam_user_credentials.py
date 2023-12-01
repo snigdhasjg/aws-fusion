@@ -45,5 +45,7 @@ def run_get(args):
     else:
         command = '$env:' if sys.platform == 'win32' else 'export '
 
-        print(f'{command}AWS_ACCESS_KEY_ID="{args.access_key}"')
-        print(f'{command}AWS_SECRET_ACCESS_KEY="{secret_key}"')
+        print('\n'.join([
+            f'{command}AWS_ACCESS_KEY_ID="{args.access_key}"',
+            f'{command}AWS_SECRET_ACCESS_KEY="{secret_key}"'
+        ]))

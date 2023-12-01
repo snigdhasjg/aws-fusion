@@ -12,16 +12,14 @@ LOG = logging.getLogger(__name__)
 
 
 def setup(subparsers, parent_parser):
-    common_parser = ArgumentParser(add_help=False)
-    common_parser.add_argument('--org-domain', required=True, help="Full domain hostname of the Okta org e.g. example.okta.com")
-
     summary = 'Generate AWS session credentials from Okta.'
     parser: ArgumentParser = subparsers.add_parser('okta', description=summary, help=summary, parents=[parent_parser])
     okta_subparsers = parser.add_subparsers(dest='okta_command', required=True, help='Available Okta commands')
 
     device_auth_summary = 'Generate AWS session credentials using SAML assertion from Okta device authentication.'
-    device_auth_parser = okta_subparsers.add_parser('device-auth', description=device_auth_summary, help=device_auth_summary, parents=[parent_parser, common_parser])
+    device_auth_parser = okta_subparsers.add_parser('device-auth', description=device_auth_summary, help=device_auth_summary, parents=[parent_parser])
     device_auth_parser.set_defaults(func=run_device_auth)
+    device_auth_parser.add_argument('--org-domain', required=True, help="Full domain hostname of the Okta org e.g. example.okta.com")
     device_auth_parser.add_argument('--oidc-client-id', required=True, help="The ID is the identifier of the client is Okta app acting as the IdP for AWS")
     device_auth_parser.add_argument('--aws-acct-fed-app-id', required=True, help="The ID for the AWS Account Federation integration app")
     device_auth_parser.add_argument('--aws-iam-role', required=True, help="The AWS IAM Role ARN to assume")
