@@ -8,7 +8,7 @@ LOG = logging.getLogger(__name__)
 
 
 def setup(subparsers, parent_parser):
-    summary = 'Initialize fusion app with creation of aws fusion alias'
+    summary = 'Initialize fusion app with creation of aws fusion alias.'
     parser = subparsers.add_parser('init', description=summary, help=summary, parents=[parent_parser])
     parser.set_defaults(func=run)
 

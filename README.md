@@ -16,33 +16,73 @@ To invoke the cli, there are 2 option
 1. Directly use `aws-fusion` command
 2. Use it via [aws cli alias](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-alias.html) with `aws fusion`
 
-## Commands
-- [init](#usage-of-init)
-- [open-browser](#usage-of-open-browser)
-- store-iam-user-credentials
-  - [store](#usage-of-iam-user-credentials-store)
-  - [get](#usage-of-iam-user-credentials-get)
-- [get-iam-user-credentials](#usage-of-get-iam-user-credentials)
-- [generate-okta-device-auth-credentials](#usage-of-generate-okta-device-auth-credentials)
-- [config-switch](#usage-of-config-switch)
-  - profile
-  - region
+## Usage
+
+```commandline
+usage: aws-fusion [<flags>] <command> ...
+
+Unified CLI tool for streamlined AWS operations, enhancing developer productivity
+
+Flags:
+  -h, --help    show this help message and exit
+  -v, --version Display the version of this tool
+  --debug       Turn on debug logging
+
+Command:
+  init [<flags>]
+    Initialize fusion app with creation of aws fusion alias.
+  
+  open-browser [<flags>] [<args>]
+    Open a web browser for graphical access to the AWS Console.
+    
+    -p, --profile PROFILE The AWS profile to create the pre-signed URL with
+    -r, --region REGION   The AWS Region to send the request to
+        --clip            Don't open the web browser, but copy the signin URL to clipboard
+        --stdout          Don't open the web browser, but echo the signin URL to stdout
+  
+  iam-user-credentials [<flags>] <sub-command>
+    IAM User credential helper.
+
+  iam-user-credentials get [<flags>] [<args>]
+    Retrieve IAM user credentials for AWS CLI profiles or application authentication.
+        
+        --access-key ACCESS_KEY AWS access key
+        --account-id ACCOUNT_ID AWS Account ID for the name
+        --username USERNAME     Username of a AWS user associated with the access key for the name
+        --credential-process    Output the credential in AWS credential process syntax
+
+  iam-user-credentials store [<flags>] [<args>]
+    Store IAM user access key and secret key securely for streamlined authentication.
+    
+        --access-key ACCESS_KEY AWS access key
+        --account-id ACCOUNT_ID AWS Account ID for the name
+        --username USERNAME     Username of a AWS user associated with the access key for the name
+        --secret-key SECRET_KEY AWS secret key
+        
+  okta [<flags>] <sub-command>
+    Generate AWS session credentials from Okta.
+    
+  okta device-auth [<flags>] [<args>]
+    Generate AWS session credentials using SAML assertion from Okta device authentication.
+
+        --org-domain ORG_DOMAIN                   Full domain hostname of the Okta org e.g. example.okta.com
+        --oidc-client-id OIDC_CLIENT_ID           The ID is the identifier of the client is Okta app acting as the IdP for AWS
+        --aws-acct-fed-app-id AWS_ACCT_FED_APP_ID The ID for the AWS Account Federation integration app
+        --aws-iam-role AWS_IAM_ROLE               The AWS IAM Role ARN to assume
+        --credential-process                      Output the credential in AWS credential process syntax
+
+  config-switch [<flags>] <sub-command>
+    Switching between AWS config.
+    
+  config-switch profile [<flags>]
+    Switch between available aws profile.
+  
+  config-switch region [<flags>]
+    Switch between available aws region.
+```
 
 ---
-## Usage of `init`
-> Try `aws-fusion init --help` for detailed parameter
-
-Initilize fusion app with creation of aws fusion alias
-
----
-## Usage of `open-browser`
-> Try `aws-fusion open-browser --help` for detailed parameter
-
-- Make AWS credentials available via aws profile 
-- Execute the script: `aws-fusion open-browser --profile my-profile`
-- :tada: Your browser opens, and you are signed in into the AWS console
-
-### Use cases
+## Use case of `open-browser`
 This only works with assume-role and federated-login, doesn't work with IAM user or user session.
 
 #### IAM assume role
@@ -98,12 +138,7 @@ The docs
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
 ---
-## Usage of `iam-user-credentials store`
-> Try `aws-fusion iam-user-credentials store --help` for detailed parameter
-
-Store AWS credentials in system default credential store
-
-### Use cases
+## Usa case of `iam-user-credentials store`
 To store IAM user credential in the system credential store for best security rather than plain text `~/.aws/credentials` file.
 
 Manually the save the credential in the store using
@@ -116,12 +151,7 @@ aws-fusion iam-user-credentials store \
 ```
 
 ---
-## Usage of `iam-user-credentials get`
-> Try `aws-fusion iam-user-credentials get --help` for detailed parameter
-
-Retrieve AWS credentials from system default credential store. Optionally plug the CLI to aws external credential process.
-
-### Use cases
+## Use case of `iam-user-credentials get`
 Configure aws config file to use credential process
 
 **Config file**
@@ -137,12 +167,7 @@ The docs
 - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
 
 ---
-## Usage of `generate-okta-device-auth-credentials`
-> Try `aws-fusion generate-okta-device-auth-credentials --help` for detailed parameter
-
-Simplifies the process of obtaining AWS session credentials using SAML assertion from Okta device authentication
-
-### Use cases
+## Use case of `okta device-auth`
 Configure aws config file to use credential process
 
 **Config file**
@@ -154,7 +179,7 @@ credential_process = aws-fusion generate-okta-device-auth-credentials --org-doma
 ```
 
 ---
-## Usage of `config-switch`
+## Use case of `config-switch`
 A special of utility script to help easily switch `profile` and `region`
 
 This works with 2 bash script, namely `_awsp` and `_awsr`
@@ -166,6 +191,8 @@ Post installing the app, create 2 aliases in `.bashrc` or `.zshrc` file.
 alias awsp="source _awsp"
 alias awsr="source _awsr"
 ```
+
+<img src="https://raw.githubusercontent.com/snigdhasjg/aws-fusion/main/doc/images/config-switch.png" width="300" alt="config-switch-image"/>
 
 ---
 ## License
