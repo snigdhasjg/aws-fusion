@@ -175,7 +175,7 @@ Configure aws config file to use credential process
 [profile iam-user]
 region = us-east-1
 output = json
-credential_process = aws-fusion generate-okta-device-auth-credentials --org-domain my.okta.com --oidc-client-id 0pbs4fq1q2vbGoFkC1m7 --aws-acct-fed-app-id 0oa8z9xa8BS9b2AFb1t7 --aws-iam-role arn:aws:iam::123456789012:role/PowerUsers --credential-process
+credential_process = aws-fusion okta device-auth --org-domain my.okta.com --oidc-client-id 0pbs4fq1q2vbGoFkC1m7 --aws-acct-fed-app-id 0oa8z9xa8BS9b2AFb1t7 --aws-iam-role arn:aws:iam::123456789012:role/PowerUsers --credential-process
 ```
 
 ---
