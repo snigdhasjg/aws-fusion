@@ -182,6 +182,7 @@ credential_process = aws-fusion okta device-auth --org-domain my.okta.com --oidc
 ## Use case of `config-switch`
 A special of utility script to help easily switch `profile` and `region`
 
+### For Linux & Darwin (MacOS)
 This works with 2 bash script, namely `_awsp` and `_awsr`
 > _Using the command without the bash script will have no effect_
 
@@ -190,6 +191,16 @@ Post installing the app, create 2 aliases in `.bashrc` or `.zshrc` file.
 ## aws fusion setup
 alias awsp="source _awsp"
 alias awsr="source _awsr"
+```
+
+### For Windows
+This works with 2 powershell script, namely `_awsp.ps1` and `_awsr.ps1`
+
+Post installing the app, create 2 aliases in `$PROFILE` (i.e. `$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`) file.
+```ps1
+## aws fusion setup
+Set-Alias awsp "_awsp.ps1"
+Set-Alias awsr "_awsr.ps1"
 ```
 
 <img src="https://raw.githubusercontent.com/snigdhasjg/aws-fusion/main/doc/images/config-switch.png" width="300" alt="config-switch-image"/>
