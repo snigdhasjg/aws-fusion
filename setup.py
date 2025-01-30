@@ -22,20 +22,6 @@ def find_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
 
-# Determine the scripts based on the operating system
-if platform.system() in ["Linux", "Darwin"]:
-    scripts = [
-        'bin/_awsp',
-        'bin/_awsr'
-    ]
-if platform.system() == "Windows":
-    scripts = [
-        'bin/_awsp.ps1',
-        'bin/_awsr.ps1'
-    ]
-else:
-    scripts = []
-
 setup(
     name='aws-fusion',
     version=find_version('aws_fusion', '__init__.py'),
@@ -56,7 +42,14 @@ setup(
             'aws-fusion = aws_fusion.app:main',
         ]
     },
-    scripts=scripts,
+    scripts=[
+        # For Linux & Darwin (MacOS)
+        'bin/_awsp',
+        'bin/_awsr',
+        # For Windows
+        'bin/_awsp.ps1',
+        'bin/_awsr.ps1'
+    ],
     install_requires=[
         'boto3>=1.29',
         'pyperclip>=1.8',
