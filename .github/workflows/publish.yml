@@ -53,7 +53,6 @@ jobs:
           if [[ "${{ env.TEST_PUBLISH }}" == "true" ]]; then
             updated_version="${current_version}-${{ github.run_number }}"
             sed -i -E "s|(__version__\s+=\s['\"])${current_version}(['\"])|\1${updated_version}\2|g" aws_fusion/__init__.py
-            cat aws_fusion/__init__.py
             current_version="${updated_version}"
           fi
 
@@ -61,7 +60,7 @@ jobs:
           echo "version=${current_version}" >> "$GITHUB_OUTPUT"
       
       - name: Add git tag
-        if: ${{ !env.TEST_PUBLISH }}
+        if: ${{ env.TEST_PUBLISH == 'false' }}
         run: |
           tag="v${{ steps.package_info.outputs.version }}"
 
@@ -79,5 +78,5 @@ jobs:
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: ${{ env.TEST_PUBLISH && 'https://test.pypi.org/legacy/' || '' }}
+          repository-url: ${{ env.TEST_PUBLISH == 'false' && 'https://test.pypi.org/legacy/' || '' }}
 
