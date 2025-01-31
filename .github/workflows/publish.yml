@@ -51,7 +51,7 @@ jobs:
           current_version=$(./setup.py --version)
 
           if [[ "${{ env.TEST_PUBLISH }}" == "true" ]]; then
-            updated_version="${current_version}-${{ github.run_number }}"
+            updated_version="${current_version}.${{ github.run_number }}"
             sed -i -E "s|(__version__\s+=\s['\"])${current_version}(['\"])|\1${updated_version}\2|g" aws_fusion/__init__.py
             current_version="${updated_version}"
           fi
