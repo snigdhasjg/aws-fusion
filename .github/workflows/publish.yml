@@ -13,24 +13,30 @@ on:
       - "main"
     paths:
       - "aws_fusion/__init__.py"
+  
+  pull_request:
+    branches:
+      - "main"
 
 concurrency: publish
 
 env:
   PYTHON_VERSION: '3.11'
+  TEST_PUBLISH: ${{ inputs.test_publish && inputs.test_publish || github.event_name == 'pull_request' }}
 
 jobs:
-  tagging:
+  publish:
     runs-on: ubuntu-latest
-    name: Auto Tagging
+    name: Publish
     permissions:
       contents: write
-    outputs:
-      tag: ${{ steps.package_info.outputs.tag }}
-      tag_pre_exist: ${{ steps.package_info.outputs.tag_pre_exist }}
+      id-token: write
+    environment:
+      name: pypi
+      url: "https://${{ env.TEST_PUBLISH && 'test.' || '' }}pypi.org/project/aws-fusion"
     steps:
       - name: Checkout 🔔
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -38,47 +44,29 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      
-      - name: Get package information
+
+      - name: Package Info
         id: package_info
         run: |
           current_version=$(./setup.py --version)
-          
-          tag_pre_exist=false
-          if git rev-parse "refs/tags/v$current_version" >/dev/null 2>&1; then
-              echo "::warning title=Tag already exists::v${current_version}"
-              tag_pre_exist=true
+
+          if [[ "${{ env.TEST_PUBLISH }}" == "true" ]]; then
+            updated_version="${current_version}-${{ github.run_number }}"
+            sed -i -E "s|(__version__\s+=\s['\"])${current_version}(['\"])|\1${updated_version}\2|g" aws_fusion/__init__.py
+            cat aws_fusion/__init__.py
+            current_version="${updated_version}"
           fi
-          
-          echo "tag=v${current_version}" >> "$GITHUB_OUTPUT"
-          echo "tag_pre_exist=${tag_pre_exist}" >> "$GITHUB_OUTPUT"
-    
+
+          echo "::notice file=aws_fusion/__init__.py::version=${current_version}"
+          echo "version=${current_version}" >> "$GITHUB_OUTPUT"
+      
       - name: Add git tag
-        if: ${{ steps.package_info.outputs.tag_pre_exist == 'false' }}
+        if: ${{ !env.TEST_PUBLISH }}
         run: |
-          git tag ${{ steps.package_info.outputs.tag }}
-          git push origin ${{ steps.package_info.outputs.tag }}
+          tag="v${{ steps.package_info.outputs.version }}"
 
-  publish:
-    needs: tagging
-    if: ${{ inputs.test_publish || needs.tagging.outputs.tag_pre_exist == 'false' }}
-    runs-on: ubuntu-latest
-    name: "${{ inputs.test_publish && 'Test ' || '' }}Publish"
-    environment:
-      name: pypi
-      url: "https://${{ inputs.test_publish && 'test.' || '' }}pypi.org/project/aws-fusion"
-    permissions:
-      id-token: write
-    steps:
-      - name: Checkout 🔔
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ needs.tagging.outputs.tag }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          git tag ${tag}
+          git push origin ${tag}
 
       - name: Install dependencies
         run: |
@@ -91,5 +79,5 @@ jobs:
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: ${{ inputs.test_publish && 'https://test.pypi.org/legacy/' || '' }}
+          repository-url: ${{ env.TEST_PUBLISH && 'https://test.pypi.org/legacy/' || '' }}
 
