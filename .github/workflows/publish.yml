@@ -6,7 +6,7 @@ on:
       test_publish:
         description: "Publish to test PyPI"
         type: boolean
-        default: false
+        default: true
 
   push:
     branches:

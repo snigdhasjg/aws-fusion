@@ -184,7 +184,6 @@ A special of utility script to help easily switch `profile` and `region`
 
 ### For Linux & Darwin (MacOS)
 This works with 2 bash script, namely `_awsp` and `_awsr`
-> _Using the command without the bash script will have no effect_
 
 Post installing the app, create 2 aliases in `.bashrc` or `.zshrc` file.
 ```shell
@@ -192,6 +191,8 @@ Post installing the app, create 2 aliases in `.bashrc` or `.zshrc` file.
 alias awsp="source _awsp"
 alias awsr="source _awsr"
 ```
+
+> _Using the command without the aliases will have no effect_
 
 ### For Windows
 This works with 2 powershell script, namely `_awsp.ps1` and `_awsr.ps1`
