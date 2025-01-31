@@ -32,7 +32,7 @@ jobs:
       contents: write
       id-token: write
     environment:
-      name: "${{ env.TEST_PUBLISH && 'test-' || '' }}pypi"
+      name: "pypi"
       url: "https://${{ env.TEST_PUBLISH && 'test.' || '' }}pypi.org/project/aws-fusion"
     steps:
       - name: Checkout 🔔
