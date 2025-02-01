@@ -59,7 +59,7 @@ setup(
         'inquirer>=3.1'
     ],
     author='Snigdhajyoti Ghosh',
-    author_email='snigdhajyotighos.h@gmail.com',
+    author_email='aws-fusion.support@snigji.com',
     url='https://github.com/snigdhasjg/aws-fusion',
     license="MIT License",
     classifiers=[
