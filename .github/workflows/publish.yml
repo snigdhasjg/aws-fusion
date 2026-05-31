@@ -21,7 +21,7 @@ on:
 concurrency: publish
 
 env:
-  PYTHON_VERSION: '3.12'
+  PYTHON_VERSION: '3.11'
   TEST_PUBLISH: ${{ inputs.test_publish && inputs.test_publish || github.event_name == 'pull_request' }}
 
 jobs:

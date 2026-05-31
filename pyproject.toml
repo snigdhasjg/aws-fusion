@@ -7,7 +7,7 @@ name = "aws-fusion"
 dynamic = ["version"]
 description = "Unified CLI tool for streamlined AWS operations"
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.11,<3.14"
 license = "MPL-2.0"
 license-files = ["LICENSE"]
 authors = [
@@ -23,7 +23,9 @@ keywords = [
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
     "Operating System :: OS Independent",
