@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aws-fusion"
+dynamic = ["version"]
+description = "Unified CLI tool for streamlined AWS operations"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "MPL-2.0"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Snigdhajyoti Ghosh", email = "aws-fusion.support@snigji.com" },
+]
+keywords = [
+    "aws",
+    "aws-sdk",
+    "aws-cli",
+    "aws-authentication",
+    "aws-sdk-python",
+    "aws-auth",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "boto3>=1.43.18",
+    "pyperclip>=1.11.0",
+    "keyring>=25.7.0",
+    "beautifulsoup4>=4.14.3",
+    "requests>=2.34.2",
+    "inquirer>=3.4.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/snigdhasjg/aws-fusion"
+Repository = "https://github.com/snigdhasjg/aws-fusion"
+
+[project.scripts]
+aws-fusion = "aws_fusion.app:main"
+
+[tool.hatch.version]
+path = "aws_fusion/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["aws_fusion"]
+
+[tool.hatch.build.targets.wheel.shared-scripts]
+"bin/_awsp" = "_awsp"
+"bin/_awsr" = "_awsr"
+"bin/_awsp.ps1" = "_awsp.ps1"
+"bin/_awsr.ps1" = "_awsr.ps1"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "aws_fusion",
+    "bin",
+    "README.md",
+    "LICENSE",
+]
