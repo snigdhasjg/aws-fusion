@@ -33,15 +33,15 @@ jobs:
       id-token: write
     environment:
       name: "pypi"
-      url: "https://${{ env.TEST_PUBLISH && 'test.' || '' }}pypi.org/project/aws-fusion"
+      url: "https://${{ env.TEST_PUBLISH == 'true' && 'test.' || '' }}pypi.org/project/aws-fusion"
     steps:
       - name: Checkout 🔔
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v8.1.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
