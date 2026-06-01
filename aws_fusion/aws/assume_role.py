@@ -77,8 +77,11 @@ class AssumeRoleWithSamlCache:
                 DurationSeconds=session_duration
             )
             LOG.debug('Got assume role response')
-        except ClientError:
-            # Try again with a shorter session length
+        except ClientError as e:
+            error_code = e.response.get('Error', {}).get('Code')
+            if error_code != 'ValidationError':
+                raise
+            LOG.debug(f'Retrying assume role with 3600s duration after {error_code}: {e}')
             response = client.assume_role_with_saml(
                 RoleArn=selected_role,
                 PrincipalArn=roles[selected_role],

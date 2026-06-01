@@ -2,9 +2,17 @@ import json
 from urllib import parse
 from urllib import request
 
+from ..exceptions import AwsFusionException
+
 
 ISSUER = "aws-console-python-script"
 SESSION_DURATION_IN_SECONDS = 43200
+_HTTP_TIMEOUT_SECONDS = 60
+
+
+class AwsFederationException(AwsFusionException):
+    """Exception for AWS console federation API call"""
+    pass
 
 
 def signin_url(creds, region_name):
@@ -21,9 +29,9 @@ def __aws_signin_token(access_key, secret_key, session_token) -> str:
     request_url = 'https://signin.aws.amazon.com/federation?Action=getSigninToken' \
                   f'&Session={credentials_encoded}'  # f'&SessionDuration={SESSION_DURATION_IN_SECONDS}'
 
-    with request.urlopen(request_url) as response:
+    with request.urlopen(request_url, timeout=_HTTP_TIMEOUT_SECONDS) as response:
         if not response.status == 200:
-            raise Exception("Failed to get federation token")
+            raise AwsFederationException(f'Failed to get federation token: HTTP {response.status}')
         return json.loads(response.read())["SigninToken"]
 
 

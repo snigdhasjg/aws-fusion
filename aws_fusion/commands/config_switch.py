@@ -27,11 +27,7 @@ def switch_profile(args):
     available_profiles = session.available_profiles
 
     profile_inquiry = inquirer.List("profile", message="Choose a profile", choices=available_profiles, default=session.profile_name, carousel=True)
-    try:
-        answers = inquirer.prompt([profile_inquiry], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
-    except KeyboardInterrupt:
-        LOG.warning('Cancelled by user')
-        exit(73)
+    answers = inquirer.prompt([profile_inquiry], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
 
     profile = answers.get('profile') if answers.get('profile') != 'default' else None
     __update_file('profile', profile)
@@ -42,11 +38,7 @@ def switch_region(args):
     available_regions = session.get_available_regions('ec2')
 
     region_inquery = inquirer.List("region", message="Choose a region", choices=available_regions, default=session.region_name, carousel=True)
-    try:
-        answers = inquirer.prompt([region_inquery], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
-    except KeyboardInterrupt:
-        LOG.warning('Cancelled by user')
-        exit(73)
+    answers = inquirer.prompt([region_inquery], theme=inquirer.themes.GreenPassion(), raise_keyboard_interrupt=True)
 
     region = answers.get('region') if answers.get('region') != session.region_name else None
     __update_file('region', region)

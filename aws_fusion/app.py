@@ -9,6 +9,7 @@ from .commands import (
     iam_user_credentials,
     okta
 )
+from .exceptions import handle_cli_errors
 
 
 def main():
@@ -33,8 +34,10 @@ def main():
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
 
-    # Call the associated function for the selected sub-command
-    if hasattr(args, 'func'):
+    if not hasattr(args, 'func'):
+        return
+
+    with handle_cli_errors(debug=args.debug):
         args.func(args)
 
 
