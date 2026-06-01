@@ -4,11 +4,13 @@ import os
 import boto3
 from botocore.utils import JSONFileCache
 
+from ..exceptions import AwsFusionException
+
 
 LOG = logging.getLogger(__name__)
 
 
-class TokenGenerationException(Exception):
+class TokenGenerationException(AwsFusionException):
     """Exception for credential not having token"""
     pass
 
@@ -22,7 +24,7 @@ def credentials(profile_name, region_name):
     creds = session.get_credentials()
     if creds.token is None:
         LOG.error("No session credential found")
-        raise TokenGenerationException()
+        raise TokenGenerationException("No session credential found")
 
     return creds, session.region_name
 

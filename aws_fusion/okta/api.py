@@ -7,11 +7,14 @@ import webbrowser
 import requests
 from bs4 import BeautifulSoup
 
+from ..exceptions import AwsFusionException
+
 
 LOG = logging.getLogger(__name__)
 
+_HTTP_TIMEOUT_SECONDS = 60
 
-class OktaApiException(Exception):
+class OktaApiException(AwsFusionException):
     """Exception for Okta API call"""
     pass
 
@@ -27,11 +30,11 @@ def device_auth(org_domain, oidc_client_id):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    response = requests.post(url, headers=headers, data=payload)
+    response = requests.post(url, headers=headers, data=payload, timeout=_HTTP_TIMEOUT_SECONDS)
     response_body = response.json()
     if response.status_code >= 300:
         LOG.error(f'Got {response.status_code} error in getting device code: {json.dumps(response_body)}')
-        raise OktaApiException()
+        raise OktaApiException(f'Device code request failed with status {response.status_code}')
 
     LOG.debug(f'Device code response: {json.dumps(response_body)}')
 
@@ -56,7 +59,7 @@ def verification_and_token(org_domain, oidc_client_id, device_code, expires_in):
     time_passed = 0
     waiting_time_each_iteration = 5
     while True:
-        response = requests.post(url, headers=headers, data=payload)
+        response = requests.post(url, headers=headers, data=payload, timeout=_HTTP_TIMEOUT_SECONDS)
         response_body = response.json()
 
         # Check for authorization pending
@@ -66,7 +69,7 @@ def verification_and_token(org_domain, oidc_client_id, device_code, expires_in):
             time_passed += waiting_time_each_iteration
             if time_passed >= expires_in:
                 LOG.error(f'Maximum waiting ({expires_in}s) for verification has exhausted')
-                raise OktaApiException()
+                raise OktaApiException(f'Device verification timed out after {expires_in}s')
             continue
 
         # Check for successful verification
@@ -75,7 +78,7 @@ def verification_and_token(org_domain, oidc_client_id, device_code, expires_in):
 
         # Unexpected state. Die.
         LOG.error(f'Got {response.status_code} error during verification of device code: {json.dumps(response_body)}')
-        raise OktaApiException()
+        raise OktaApiException(f'Device code verification failed with status {response.status_code}')
 
     LOG.debug(f'Token response: {json.dumps(response_body)}')
     return response_body['access_token'], response_body['id_token']
@@ -98,11 +101,11 @@ def session_and_token(org_domain, oidc_client_id, access_token, id_token, aws_ac
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    response = requests.post(url, headers=headers, data=payload)
+    response = requests.post(url, headers=headers, data=payload, timeout=_HTTP_TIMEOUT_SECONDS)
     response_body = response.json()
     if response.status_code >= 300:
         LOG.error(f'Got {response.status_code} error in session token: {json.dumps(response_body)}')
-        raise OktaApiException()
+        raise OktaApiException(f'Session token exchange failed with status {response.status_code}')
 
     LOG.debug(f'Session token response: {json.dumps(response_body)}')
     return response_body['access_token']
@@ -115,10 +118,10 @@ def saml_assertion(org_domain, session_token):
     query_params = {
         'token': session_token
     }
-    response = requests.get(url, params=query_params)
+    response = requests.get(url, params=query_params, timeout=_HTTP_TIMEOUT_SECONDS)
     if response.status_code >= 300:
         LOG.error(f'Got {response.status_code} error while getting SAML response')
-        raise OktaApiException()
+        raise OktaApiException(f'SAML assertion request failed with status {response.status_code}')
 
     # Extract response value from SAML assertion call
     parser = BeautifulSoup(response.text, "html.parser")
