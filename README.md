@@ -37,6 +37,7 @@ Command:
     
     -p, --profile PROFILE The AWS profile to create the pre-signed URL with
     -r, --region REGION   The AWS Region to send the request to
+        --no-logout       Skip logging out of the existing AWS console session before signing in (needed for AWS multi-session)
         --clip            Don't open the web browser, but copy the signin URL to clipboard
         --stdout          Don't open the web browser, but echo the signin URL to stdout
   

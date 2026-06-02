@@ -1,6 +1,6 @@
 import argparse
 import logging
-from importlib.metadata import version
+from . import __version__
 
 from .commands import (
     init,
@@ -14,7 +14,7 @@ from .exceptions import handle_cli_errors
 
 def main():
     global_parser = argparse.ArgumentParser(add_help=False)
-    global_parser.add_argument('-v', '--version', action='version', help="Display the version of this tool", version=version("aws_fusion"))
+    global_parser.add_argument('-v', '--version', action='version', help="Display the version of this tool", version=__version__)
     global_parser.add_argument('--debug', action='store_true', help='Turn on debug logging')
 
     main_parser = argparse.ArgumentParser(prog='aws-fusion', description='Unified CLI tool for streamlined AWS operations, enhancing developer productivity', parents=[global_parser])

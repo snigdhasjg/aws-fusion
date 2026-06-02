@@ -15,11 +15,13 @@ class AwsFederationException(AwsFusionException):
     pass
 
 
-def signin_url(creds, region_name):
+def signin_url(creds, region_name, logout=True):
     login_request_url = __aws_login_url(
         creds.access_key, creds.secret_key, creds.token, region_name)
-    return 'https://us-east-1.signin.aws.amazon.com/oauth?Action=logout' \
-        f'&redirect_uri={parse.quote_plus(login_request_url)}'
+    if logout:
+        return 'https://us-east-1.signin.aws.amazon.com/oauth?Action=logout' \
+            f'&redirect_uri={parse.quote_plus(login_request_url)}'
+    return login_request_url
 
 
 def __aws_signin_token(access_key, secret_key, session_token) -> str:
